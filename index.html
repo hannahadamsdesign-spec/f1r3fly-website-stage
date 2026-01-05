@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1R3FLY Industries — The AI-Native Layer 1 for Verifiable Web3 and Agentic Systems</title>
+    <meta name="description" content="F1R3FLY is an AI-native Layer 1 built on Rholang and validator nodes. Connect AI agents, Web3, and real-world data into verifiable, concurrent workflows without global state bottlenecks.">
+    
+    <!-- Adobe Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/mhz8bvz.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'brandon-grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #f5f5f5;
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-weight: 300;
+            font-size: 16px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0 0 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 70px;
+            width: auto;
+            margin-top: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            margin-left: 60px;
+        }
+
+        .nav-links a {
+            color: #FFF;
+            text-decoration: none;
+            font-family: 'brandon-grotesque', sans-serif;
+            font-size: 21px;
+            font-weight: 330;
+            letter-spacing: 1.47px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-divider {
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 100;
+            font-size: 18px;
+        }
+
+        .nav-line {
+            display: block;
+            width: 100%;
+            height: 1px;
+            margin-top: 20px;
+        }
+
+        /* Hero/Intro Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 40px 80px;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-logo {
+            max-width: 280px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .hero-tagline-small {
+            color: #FFF;
+            text-align: center;
+            font-family: 'brandon-grotesque', sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 1.68px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+
+        .section-intro {
+            text-align: center;
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 50px;
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 50px;
+        }
+
+        /* Three Column Cards */
+        .three-col-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .col-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .col-card .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 12px;
+        }
+
+        .col-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+        }
+
+        .col-card p, .col-card ul {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .col-card ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .col-card li {
+            margin-bottom: 8px;
+        }
+
+        /* Gradient Buttons */
+        .gradient-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1.2px;
+            background: linear-gradient(90deg, #a3004d, #b8003d);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .gradient-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.3);
+        }
+
+        /* Purple Gradient Section */
+        .purple-gradient {
+            background: linear-gradient(180deg, #1a0033 0%, #000 100%);
+            padding: 80px 40px;
+            margin: 60px 0;
+        }
+
+        /* Blue Gradient Section */
+        .blue-gradient {
+            background: linear-gradient(180deg, #001a33 0%, #000 100%);
+            padding: 80px 40px;
+            margin: 60px 0;
+        }
+
+        /* Launch Demo Buttons */
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 28px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-photo {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .team-member h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .team-member .role {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+
+        .team-member .bio {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+        }
+
+        /* Partner Logos */
+        .partner-logos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 40px;
+            align-items: center;
+            justify-items: center;
+            margin-top: 50px;
+            padding: 40px 0;
+        }
+
+        .partner-logo {
+            width: 140px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 15px 0; }
+            .nav-container { padding: 0 20px; }
+            .nav-logo img { height: 32px; }
+            .nav-links { gap: 20px; font-size: 0.7rem; }
+            .hero { padding: 100px 20px 60px; }
+            .hero-logo { max-width: 200px; }
+            h2 { font-size: 1.8rem; }
+            section { padding: 60px 20px; }
+            .three-col-cards, .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <img src="images/Logo Brand Horizontal Option with Text.svg" alt="F1R3FLY INDUSTRIES">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#technology">Technology</a></li>
+                <li class="nav-divider">|</li>
+                <li><a href="#developers">Developers</a></li>
+                <li class="nav-divider">|</li>
+                <li><a href="#clients">Clients</a></li>
+                <li class="nav-divider">|</li>
+                <li><a href="#partners">Partners</a></li>
+                <li class="nav-divider">|</li>
+                <li><a href="#team">Team</a></li>
+                <li class="nav-divider">|</li>
+                <li><a href="#blog">Blog</a></li>
+                <li class="nav-divider">|</li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <img src="images/Navigation Line.svg" alt="" class="nav-line">
+    </nav>
+
+    <!-- Intro Section -->
+    <section id="intro" class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="images/FIREFLY ANIMATION_3.mov" type="video/quicktime">
+        </video>
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="images/Logo Brand Vertical Option with Text.svg" alt="F1R3FLY INDUSTRIES">
+            </div>
+            <p class="hero-tagline-small">The Feeling of Freedom and Speed</p>
+            <p class="hero-tagline">The AI-native infrastructure for verifiable, concurrent, multi-agent applications.</p>
+        </div>
+    </section>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h2>What F1R3FLY is, what it solves, why it matters.</h2>
+        <p class="section-intro">F1R3FLY is an AI-native Layer 1 built on Rholang and validator nodes. It is designed for teams that need more than another chain: they need verifiable concurrency, safe composition of AI and Web3, and infrastructure that can explain what actually happened in their system.</p>
+        
+        <div class="three-col-cards">
+            <div class="col-card">
+                <div class="label">Developers</div>
+                <h3>From global state chaos to verifiable concurrency</h3>
+                <p>Building AI-driven, multi-agent systems on a single global state quickly becomes a bottleneck: long transaction queues, race conditions, and bugs that are almost impossible to reproduce.</p>
+                <p>F1R3FLY gives you a concurrency-native execution model powered by Rholang. Instead of fighting the global state, explicitly describe processes and channels, let validators run them in parallel, and keep a clear, verifiable record of every interaction.</p>
+                <ul>
+                    <li>Model complex agent workflows without shared-state hacks.</li>
+                    <li>Connect on-chain logic to off-chain services in a structured way;</li>
+                    <li>Debug with evidence from the validator network, not guesswork.</li>
+                </ul>
+            </div>
+            
+            <div class="col-card">
+                <div class="label">Clients</div>
+                <h3>Connect AI, data, and Web3 without fragile custom glue.</h3>
+                <p>If you are asking, "How do we connect AI agents, Web3 contracts, and our existing data systems without another fragile one-off integration?", this is precisely what F1R3FLY is built to solve.</p>
+                <p>The platform lets your product teams orchestrate AI calls, smart-contract logic, and external services as repeatable workflows on top of a validator-backed infrastructure.</p>
+                <ul>
+                    <li>One place to reason about how data moves through AI, contracts, and services;</li>
+                    <li>Verifiable logs of what was executed and when;</li>
+                    <li>Less time spent maintaining ad-hoc integration code, more time shipping features.</li>
+                </ul>
+            </div>
+            
+            <div class="col-card">
+                <div class="label">Partners</div>
+                <h3>Infrastructure for high-trust, AI-native ecosystems</h3>
+                <p>Ecosystem and funding partners do not just need another chain — they need an environment where AI, cryptography, and real-world data can work together under clear rules of evidence and concurrency.</p>
+                <p>F1R3FLY provides an architecture in which validator nodes, Rholang contracts, and host services form a single, composable layer for high-trust applications.</p>
+                <ul>
+                    <li>A credible technical story for AI-native products and networks;</li>
+                    <li>a platform designed for transparency and auditability of complex workflows;</li>
+                    <li>A foundation that can grow from small pilots to production-grade deployments.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Launch Demo CTA -->
+    <div class="purple-gradient">
+        <section>
+            <h2>Launch Demo</h2>
+            <p class="section-intro">Choose your path to explore how F1R3FLY works for you.</p>
+            <div class="demo-buttons">
+                <a href="#" class="gradient-btn">I'm a Developer</a>
+                <a href="#" class="gradient-btn">I'm a Client</a>
+                <a href="#" class="gradient-btn">I'm a Partner</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scalable, Storable, Searchable Section -->
+    <section>
+        <h2>Scalable. Storable. Searchable.</h2>
+        <p class="section-intro">An AI-native Layer-1 for the global economy. F1R3FLY provides developers with concurrency-native execution, validator-backed data, and formally grounded Rholang contracts, ensuring real-world, data-heavy workloads remain fast and verifiable.</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Concurrency-Native Scalability</h3>
+                <ul>
+                    <li>No single global state or transaction queue to fight with.</li>
+                    <li>Transactions execute concurrently across validators.</li>
+                    <li>Capacity scales with your hardware and network topology, rather than hitting a global bottleneck.</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Validator-Backed Data</h3>
+                <ul>
+                    <li>Application state and key datasets live directly on the network.</li>
+                    <li>Verifiable logs and events that AI agents and services can trust.</li>
+                    <li>Built-in auditability and replay for regulated and high-trust scenarios.</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Correct-by-Construction</h3>
+                <ul>
+                    <li>Smart contracts written in Rholang with strong concurrency semantics.</li>
+                    <li>Behavior modeled as processes and channels, not ad-hoc callbacks.</li>
+                    <li>Designed to reduce race conditions and make complex logic easier to reason about and test.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developer's Demo Section -->
+    <div class="blue-gradient">
+        <section>
+            <h2>Developer's Demo</h2>
+            <p class="section-intro">See F1R3FLY, Rholang, and FireSky running together in one workflow.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px;">
+                <div style="background: rgba(255,255,255,0.05); aspect-ratio: 16/9; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3);">
+                    [Demo Video/Screenshot]
+                </div>
+                <div>
+                    <p style="margin-bottom: 20px; line-height: 1.7; color: rgba(255,255,255,0.75);">In this short, developer-first demo, we spin up a local F1R3FLY shard and FireSky using Docker, log in as a test user, publish a post, and then look under the hood. You'll see how a simple "create post" action in the FireSky UI turns into Rholang deploys, blocks, and logs on a live validator — using the exact steps you can run on your own machine.</p>
+                    <p style="margin-bottom: 20px; font-weight: 400; color: rgba(255,255,255,0.85);">In this demo, you will:</p>
+                    <ul style="margin-bottom: 30px; padding-left: 20px; color: rgba(255,255,255,0.7); line-height: 1.8;">
+                        <li>Start a local F1R3FLY validator and FireSky stack with Docker.</li>
+                        <li>Sign in as a demo user and publish a post to the social feed.</li>
+                        <li>Trace that post from the UI to Rholang contract calls and node logs.</li>
+                        <li>Learn the core pattern for building and testing your own Rholang-backed apps.</li>
+                    </ul>
+                    <a href="#" class="gradient-btn">Launch Developer Demo</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Deep Dive Section -->
+    <section>
+        <h2>Deep dive into Rholang and Concurrency</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 40px;">
+            <div>
+                <h3 style="margin-bottom: 25px;">Concurrent by design. Secure by math.</h3>
+                <ul style="padding-left: 20px; line-height: 1.9; color: rgba(255,255,255,0.7);">
+                    <li><strong>Rholang</strong> – an actor-style smart contract language designed for concurrent execution and verifiable coordination.</li>
+                    <li><strong>Spatial–behavioral types</strong> – a mathematical framework that lets you prove properties of contracts before they ever touch mainnet, catching whole classes of bugs by construction.</li>
+                    <li><strong>OSLF Algorithm</strong> – an approach that dramatically expands what can be searched and indexed on-chain by reasoning about processes instead of static data.</li>
+                    <li><strong>Casper Consensus</strong> – a Proof-of-Stake protocol that is energy-efficient, finality-oriented, and grounded in peer-reviewed research.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 style="margin-bottom: 25px;">We didn't just fork Bitcoin or Ethereum. We rebuilt the stack from the geometry of logic up.</h3>
+                <p style="margin-bottom: 20px; line-height: 1.8; color: rgba(255,255,255,0.75);">Legacy chains execute transactions one after another, turning global state into a single bottleneck. F1R3FLY follows a different path. Rholang contracts are modeled as communicating processes, so non-conflicting workflows can run in parallel across cores and validator nodes while still converging on a single shared state.</p>
+                <p style="line-height: 1.8; color: rgba(255,255,255,0.75);">It means your AI agents, trading strategies, or mission-critical workflows don't have to stand in the same queue. You get blockchain-level trust and auditability, without surrendering modern concurrency.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developers Section -->
+    <section id="developers">
+        <h2>Developers</h2>
+        
+        <div class="three-col-cards">
+            <div class="col-card">
+                <h3>Documentation</h3>
+                <p>Start here if you want to understand how F1R3FLY actually works in production. Explore the online developer documentation: core protocol overviews, Rholang language guides, and step-by-step tutorials that walk you from "run a validator locally" to "ship a production-grade application" on the F1R3FLY execution layer. This is the canonical, always-up-to-date source for architects, backend developers, and integrators.</p>
+                <div style="margin-top: 20px;">
+                    <a href="#" class="gradient-btn">Open Developer Documentation</a>
+                </div>
+            </div>
+            
+            <div class="col-card">
+                <h3>Repositories</h3>
+                <p>Browse the official F1R3FLY GitHub repositories: validator nodes, Rholang tooling, reference applications like FireSky, and example contracts you can copy, fork, and extend. This is the place to clone the stack, open issues, and contribute fixes or new features.</p>
+                <div style="margin-top: 20px;">
+                    <a href="#" class="gradient-btn">View Repositories</a>
+                </div>
+            </div>
+            
+            <div class="col-card">
+                <h3>Architecture & Live Sessions</h3>
+                <p>Go deeper with architecture notes, design walkthroughs, and recordings of live sessions with the core team. See how we model real-world systems in Rholang, make concurrency safe, and design AI-native, high-trust applications on top of F1R3FLY.</p>
+                <div style="margin-top: 20px;">
+                    <a href="#" class="gradient-btn">Watch Sessions</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <div class="blue-gradient">
+        <section id="clients">
+            <h2>Clients</h2>
+            <p class="section-intro">Organizations are building AI-native and decentralized infrastructure. These logos represent the broader ecosystem in which F1R3FLY is designed to operate.</p>
+            
+            <div class="partner-logos">
+                <div class="partner-logo"></div>
+                <div class="partner-logo"></div>
+                <div class="partner-logo"></div>
+                <div class="partner-logo"></div>
+                <div class="partner-logo"></div>
+                <div class="partner-logo"></div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="gradient-btn">Launch Client Demo</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Case Studies Section -->
+    <section>
+        <h2>Case Studies</h2>
+        <p class="section-intro">Example Use Cases</p>
+        
+        <div class="three-col-cards">
+            <div class="col-card">
+                <h3>Real-time workflows without a single global queue</h3>
+                <p>When many services, agents, or users compete for the same resources, traditional systems push everything into a single global queue. F1R3FLY's concurrent execution model lets non-conflicting workflows run in parallel while still converging on a single shared state.</p>
+                <p>This is a good fit for real-time trading, streaming data pipelines, or operational dashboards that need up-to-date, verifiable state rather than "eventual consistency plus guesswork".</p>
+            </div>
+            
+            <div class="col-card">
+                <h3>Cross-organization data sharing with evidence</h3>
+                <p>Cross-organization workflows usually rely on custom integrations, brittle APIs, and spreadsheets that are hard to audit. With F1R3FLY, shared rules live in Rholang contracts, and every state change leaves a verifiable trace across participants.</p>
+                <p>Partners keep their existing systems of record, while F1R3FLY acts as the neutral execution layer that coordinates access, records decisions, and provides the evidence trail for audits and compliance reviews.</p>
+            </div>
+            
+            <div class="col-card">
+                <h3>Agentic AI on a shared global state</h3>
+                <p>Agentic AI systems generate thousands of concurrent actions against shared resources. F1R3FLY lets you model each agent as a process and govern their behavior through contracts on a single global state.</p>
+                <p>That means AI agents can propose, negotiate, and execute actions in parallel. At the same time, validators keep the resulting state consistent, replayable, and transparent — so you can prove how decisions were made, not just that they happened.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <div class="purple-gradient">
+        <section id="partners">
+            <h2>Partners & Ecosystem</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: rgba(255,255,255,0.6); font-size: 0.95rem;">Partners · Funding & Collaboration · Roadmap & Ecosystem Growth</p>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <p style="margin-bottom: 20px; line-height: 1.8; color: rgba(255,255,255,0.75);">F1R3FLY grows through teams we actively build with. Our partners range from infrastructure providers and research groups to AI and enterprise teams who are stress-testing real agentic systems, financial rails, and high-trust data platforms on top of the F1R3FLY execution layer. Partnering with us means early access to ideas, reference architectures, and tooling shaped by real workloads rather than synthetic benchmarks.</p>
+                <p style="line-height: 1.8; color: rgba(255,255,255,0.75);">For us, partnership is not just a logo on a slide. It's co-designing architectures, validating them in production-like environments, and turning the lessons into reusable patterns for the whole ecosystem. If you are building the next generation of AI-native applications or mission-critical coordination systems, F1R3FLY is the layer where we can prove that your designs scale and remain auditable. It can be trusted by everyone who depends on them.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Team Section -->
+    <section id="team">
+        <h2>Team</h2>
+        <p class="section-intro">F1R3FLY is built by a small team of researchers, engineers, and product people who have spent years thinking about concurrent computation, smart contract safety, and real-world systems. We combine deep theory with hands-on experience shipping software, so the architecture is not just elegant on paper but workable for developers, clients, and partners.</p>
+        
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-photo"></div>
+                <h3>Greg Meredith</h3>
+                <p class="role">President and CEO</p>
+                <p class="bio">Leads the overall vision and architecture of F1R3FLY, bringing a background in concurrency theory and formal methods into a system that real developers can build on.</p>
+            </div>
+            
+            <div class="team-member">
+                <div class="team-photo"></div>
+                <h3>Mike Stay</h3>
+                <p class="role">Director of Research</p>
+                <p class="bio">Heads F1R3FLY's research efforts, focusing on Rholang, type systems, and the mathematical foundations that make concurrent smart contracts safer and more predictable.</p>
+            </div>
+            
+            <div class="team-member">
+                <div class="team-photo"></div>
+                <h3>Jeff Turner</h3>
+                <p class="role">Product Manager</p>
+                <p class="bio">Connects the protocol and the product, working with developers and partners to turn F1R3FLY's capabilities into clear use cases, demos, and workflows that teams can adopt in practice.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <div class="blue-gradient">
+        <section>
+            <h2>Blog</h2>
+            <p class="section-intro">Technical deep dives from the F1R3FLY team on concurrent infrastructure, Rholang, and AI-native systems. We write for people asking questions like "How do I design an AI-native backend on a concurrent execution layer?" or "When should I use Rholang instead of a traditional smart-contract stack?"</p>
+            
+            <div class="three-col-cards">
+                <div class="col-card">
+                    <h3>AI-native infrastructure, explained.</h3>
+                    <p>The F1R3FLY blog explores how to build real systems on a concurrent execution layer: global shared state, verifiable coordination, and Rholang-powered smart contracts.</p>
+                    <p>We focus on practical patterns for AI-native architectures, agentic systems, and high-trust applications that need more than "yet another blockchain."</p>
+                </div>
+                
+                <div class="col-card">
+                    <h3>From core ideas to concrete patterns.</h3>
+                    <p>Each article is a concise technical breakdown, not marketing copy. In 400–800 words, we cover:</p>
+                    <ul>
+                        <li>What the piece is about and which problem it solves;</li>
+                        <li>where F1R3FLY, Rholang, and concurrency actually help;</li>
+                        <li>What developers, product teams, and partners can do with it in real projects.</li>
+                    </ul>
+                    <p>The goal is to turn complex research and long-form writing into actionable patterns you can apply to your own systems.</p>
+                </div>
+                
+                <div class="col-card">
+                    <h3>F1R3FLY insights & ecosystem updates</h3>
+                    <p>On this site, each blog entry distills a specific line of work around F1R3FLY — from concurrent execution and Rholang semantics to AI-native architectures and production incident learnings.</p>
+                    <p>Behind each article, there is usually a deeper primary source created by Lucius Gregory Meredith and the wider F1R3FLY team — long-form Substack pieces, extended blog posts, research notes, design documents, or public talks.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="gradient-btn">Read the Blog</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <p class="section-intro">Tell us who you are, what you're building, and how you think F1R3FLY can help. We work with developers, product teams, and ecosystem partners building AI-native systems on concurrent infrastructure and Rholang.</p>
+        <p class="section-intro">Whether you're exploring F1R3FLY for a new product, evaluating Rholang for an AI-native backend, or looking for a long-term ecosystem partnership, this is the fastest way to reach the team. Share a few details below, and we'll route your request to the right people.</p>
+        
+        <div style="max-width: 600px; margin: 40px auto;">
+            <form style="display: flex; flex-direction: column; gap: 20px;">
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 400; color: rgba(255,255,255,0.9);">Full name</label>
+                    <input type="text" placeholder="Ada Lovelace" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.95rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 400; color: rgba(255,255,255,0.9);">Work email</label>
+                    <input type="email" placeholder="name@company.com" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.95rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 400; color: rgba(255,255,255,0.9);">Organization or project</label>
+                    <input type="text" placeholder="Acme Labs / \"Agentic Trading Platform\"" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.95rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 400; color: rgba(255,255,255,0.9);">Your role</label>
+                    <input type="text" placeholder="Lead engineer, CTO, Product manager…" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.95rem;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 400; color: rgba(255,255,255,0.9);">I'm contacting you as…</label>
+                    <select required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.95rem;">
+                        <option value="">Select one…</option>
+                        <option>Developer / Architect</option>
+                        <option>Client team (product, business, or operations)</option>
+                        <option>Partner / Ecosystem / Investor</option>
+                        <option>Research / Academic</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 400; color: rgba(255,255,255,0.9);">How can we help?</label>
+                    <textarea placeholder="Tell us briefly what you're building, your current stack, and what you'd like to explore with F1R3FLY." required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.95rem; min-height: 120px;"></textarea>
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <button type="submit" class="gradient-btn">Send Message</button>
+                </div>
+                
+                <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.6; margin-top: 10px;">By submitting this form you consent to F1R3FLY using your information to review and respond to your request. We do not sell your data or share it with third parties, except trusted service providers who help us operate this website.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 F1R3FLY INDUSTRIES. All rights reserved.</p>
+    </footer>
+</body>
+</html>
