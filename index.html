@@ -26,13 +26,14 @@
 <!-- ============ NAVIGATION ============ -->
 <nav class="site-nav" aria-label="Main navigation">
   <div class="nav-container">
-    <a href="#home" class="nav-logo">
-      <img src="images/logo-icon.svg" alt="F1R3FLY" class="nav-logo-icon" width="60" height="60">
-      <div class="nav-logo-text-group">
+    <div class="nav-logo-area">
+      <a href="#home" class="nav-logo">
+        <img src="images/logo-icon.svg" alt="F1R3FLY" class="nav-logo-icon" width="60" height="60">
         <span class="nav-logo-text">F1R3FLY.IO</span>
-        <span class="nav-logo-subtitle">A Subsidiary of F1R3FLY Industries</span>
-      </div>
-    </a>
+      </a>
+      <span class="nav-logo-divider" aria-hidden="true">|</span>
+      <span class="nav-logo-subtitle">A Subsidiary of <a href="https://f1r3fly.com" target="_blank" rel="noopener">F1R3FLY Industries</a></span>
+    </div>
 
     <ul class="nav-links">
       <li><a href="#technology">Technology</a></li>
@@ -83,8 +84,7 @@
       <img src="images/logo-icon.svg" alt="F1R3FLY.IO" width="280" height="280" loading="eager">
     </div>
     <h1 class="hero-company-name">F1R3FLY.IO</h1>
-    <p class="hero-tagline-small">A Subsidiary of F1R3FLY Industries</p>
-    <p class="hero-tagline">the network is the computer is the network is…</p>
+    <p class="hero-subsidiary">A Subsidiary of <a href="https://f1r3fly.com" target="_blank" rel="noopener">F1R3FLY Industries</a></p>
     <a href="#home" class="hero-arrow">
       <img src="images/arrow.svg" alt="Scroll to top" width="55" height="55">
     </a>
@@ -106,7 +106,6 @@
         <li>Connect on-chain logic to off-chain services seamlessly.</li>
         <li>Debug with evidence, not guesswork.</li>
       </ul>
-      <a href="https://www.youtube.com/watch?v=mNbXqw3LX9c" target="_blank" rel="noopener" class="gradient-btn btn-developer">Launch Developer Demo</a>
     </div>
 
     <div class="card animate-in from-bottom delay-2">
@@ -118,7 +117,6 @@
         <li>Verifiable logs of what was executed and when.</li>
         <li>Less maintenance, more time shipping features.</li>
       </ul>
-      <a href="https://www.youtube.com/@f1r3fly-io/videos" target="_blank" rel="noopener" class="gradient-btn btn-client">Launch Client Demo</a>
     </div>
 
     <div class="card animate-in from-right delay-3">
@@ -130,20 +128,22 @@
         <li>Transparency and auditability for complex workflows.</li>
         <li>A foundation from pilot to production-grade scale.</li>
       </ul>
-      <a href="https://www.youtube.com/@f1r3fly-io/videos" target="_blank" rel="noopener" class="gradient-btn btn-partner">Launch Partner Demo</a>
     </div>
+  </div>
+  <div style="text-align:right; margin-top:48px;">
+    <a href="https://www.youtube.com/@f1r3fly-io/videos" target="_blank" rel="noopener" class="gradient-btn btn-developer">Watch Our Demos</a>
   </div>
 </section>
 
 <!-- Scalable. Storable. Searchable. -->
 <div class="section-band neutral" style="margin-bottom:0; padding-top:40px;">
   <section class="section">
-    <div class="label">Scalable. Storable. Searchable.</div>
-    <h2>An AI-native execution layer for the global economy</h2>
-    <p class="section-intro">F1R3FLY provides developers with concurrency-native execution, validator-backed data, and formally grounded Rholang contracts, ensuring real-world, data-heavy workloads remain fast and verifiable.</p>
+    <div class="label fade-in">Scalable. Storable. Searchable.</div>
+    <h2 class="fade-in delay-1">An AI-native execution layer for the global economy</h2>
+    <p class="section-intro fade-in delay-2">F1R3FLY provides developers with concurrency-native execution, validator-backed data, and formally grounded Rholang contracts, ensuring real-world, data-heavy workloads remain fast and verifiable.</p>
 
     <div class="text-grid">
-      <div>
+      <div class="animate-in from-left delay-1">
         <h3>Concurrency-Native Scalability</h3>
         <ul>
           <li>No single global state or transaction queue to fight with.</li>
@@ -151,7 +151,7 @@
           <li>Capacity scales with your hardware and network topology, not a global bottleneck.</li>
         </ul>
       </div>
-      <div>
+      <div class="animate-in from-bottom delay-2">
         <h3>Validator-Backed Data</h3>
         <ul>
           <li>Application state and key datasets live directly on the network.</li>
@@ -159,7 +159,7 @@
           <li>Built-in auditability and replay for regulated, high-trust scenarios.</li>
         </ul>
       </div>
-      <div>
+      <div class="animate-in from-right delay-3">
         <h3>Correct-by-Construction</h3>
         <ul>
           <li>Smart contracts written in Rholang with strong concurrency semantics.</li>
@@ -172,7 +172,12 @@
 </div>
 
 <!-- Math Parallax -->
-<div class="parallax-image" role="img" aria-label="Mathematical notation background"></div>
+<div class="parallax-image" role="img" aria-label="Mathematical notation background">
+  <div class="parallax-ticker" aria-hidden="true">
+    <span>the network is the computer is the network is the computer is the network is the computer is&nbsp;</span>
+    <span>the network is the computer is the network is the computer is the network is the computer is&nbsp;</span>
+  </div>
+</div>
 
 <!-- Toto Section -->
 <div style="background:#000; padding:60px 20px;">
@@ -466,7 +471,7 @@
   </div>
 
   <div style="text-align:right; margin-top:40px;">
-    <a href="https://www.youtube.com/@f1r3fly-io/videos" target="_blank" rel="noopener" class="gradient-btn btn-client" style="padding:0 40px;">Launch Client Demo</a>
+    <a href="https://www.youtube.com/@f1r3fly-io/videos" target="_blank" rel="noopener" class="gradient-btn btn-client">Watch Our Demos</a>
   </div>
 </section>
 
@@ -707,8 +712,8 @@
       </div>
     </div>
 
-    <div style="margin-top:40px;">
-      <a href="mailto:general.manager@f1r3fly.io?subject=Interested%20in%20joining%20F1R3FLY" class="gradient-btn btn-neutral" style="padding:0 40px;">Get In Touch</a>
+    <div style="text-align:right; margin-top:40px;">
+      <a href="mailto:general.manager@f1r3fly.io?subject=Interested%20in%20joining%20F1R3FLY" class="gradient-btn btn-neutral">Get In Touch</a>
     </div>
   </section>
 </div>
@@ -716,10 +721,10 @@
 <!-- ============ BLOG ============ -->
 <section id="blog" class="section">
   <h2 class="fly-in-header">Blog</h2>
-  <p class="section-intro">Technical deep dives from the F1R3FLY team on concurrent infrastructure, Rholang, and AI-native systems.</p>
+  <p class="section-intro fade-in delay-1">Technical deep dives from the F1R3FLY team on concurrent infrastructure, Rholang, and AI-native systems.</p>
 
   <div class="card-grid">
-    <div class="card">
+    <div class="card animate-in from-left delay-1">
       <div class="label">AI-Native Infrastructure</div>
       <h3>AI-native infrastructure, explained</h3>
       <p>The F1R3FLY blog explores how to build real systems on a concurrent execution layer: global shared state, verifiable coordination, and Rholang-powered smart contracts.</p>
@@ -730,7 +735,7 @@
       </ul>
     </div>
 
-    <div class="card">
+    <div class="card animate-in from-bottom delay-2">
       <div class="label">Technical Breakdowns</div>
       <h3>From core ideas to concrete patterns</h3>
       <p>Each article is a concise technical breakdown, not marketing copy. In 400–800 words, we cover what the piece is about, where F1R3FLY helps, and what you can do with it.</p>
@@ -741,7 +746,7 @@
       </ul>
     </div>
 
-    <div class="card">
+    <div class="card animate-in from-right delay-3">
       <div class="label">Ecosystem Updates</div>
       <h3>F1R3FLY insights &amp; ecosystem updates</h3>
       <p>Each blog entry distills a specific line of work around F1R3FLY — from concurrent execution and Rholang semantics to AI-native architectures and production learnings.</p>
@@ -753,8 +758,8 @@
     </div>
   </div>
 
-  <div style="text-align:center; margin-top:40px;">
-    <a href="https://f1r3fly.substack.com/?r=18083v&utm_campaign=subscribe-page-share-screen&utm_medium=web" target="_blank" rel="noopener" class="gradient-btn btn-neutral" style="padding:0 40px;">Read The Blog</a>
+  <div style="text-align:right; margin-top:40px;">
+    <a href="https://f1r3fly.substack.com/?r=18083v&utm_campaign=subscribe-page-share-screen&utm_medium=web" target="_blank" rel="noopener" class="gradient-btn btn-neutral">Read The Blog</a>
   </div>
 </section>
 
@@ -811,7 +816,7 @@
           <label for="message">How can we help?</label>
           <textarea id="message" name="message" placeholder="What you're building and what you'd like to explore with F1R3FLY." required></textarea>
         </div>
-        <div style="margin-top:5px;">
+        <div style="text-align:right; margin-top:5px;">
           <button type="submit" class="gradient-btn btn-neutral">Send Message</button>
         </div>
       </div>
@@ -819,25 +824,79 @@
   </form>
 </section>
 
+<!-- Cross-link Banner -->
+<div class="section-band neutral" style="padding:30px 20px; text-align:center;">
+  <p style="color:rgba(255,255,255,0.7); font-size:16px; margin-bottom:12px;">Looking for company overview, solutions, and partnership information?</p>
+  <a href="https://f1r3fly.com" target="_blank" rel="noopener" style="color:var(--color-brand-blue); font-size:18px; font-weight:500; text-decoration:none;">Visit F1R3FLY Industries &rarr;</a>
+</div>
+
 <!-- ============ FOOTER ============ -->
-<footer class="section-band neutral site-footer" style="margin:0; padding:80px 20px 60px;">
-  <div class="footer-content">
-    <div class="social-icons">
-      <a href="https://twitter.com/f1r3flyceo" target="_blank" rel="noopener" class="social-icon" aria-label="Twitter/X">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/company/f1r3fly-io/" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <a href="https://github.com/F1R3FLY-io" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-      </a>
-      <a href="https://discord.gg/Z4Mdzcsp" target="_blank" rel="noopener" class="social-icon" aria-label="Discord">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
-      </a>
+<footer class="section-band neutral site-footer" style="margin:0; padding:80px 20px 40px;">
+  <div class="footer-grid">
+
+    <!-- Column 1: Logo + tagline + socials -->
+    <div class="footer-brand">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+        <img src="images/logo-icon.svg" alt="F1R3FLY" width="40" height="40">
+        <span style="font-family:var(--font-heading); font-weight:700; font-size:16px; letter-spacing:2px; text-transform:uppercase; color:var(--color-white);">F1R3FLY.IO</span>
+      </div>
+      <p style="color:rgba(255,255,255,0.5); font-size:14px; line-height:1.6; margin-bottom:24px;">Scalable. Searchable. Secure. Storable.<br>A Digital Evolution in concurrent computing.</p>
+      <div class="social-icons" style="margin-bottom:0;">
+        <a href="https://twitter.com/f1r3flyceo" target="_blank" rel="noopener" class="social-icon" aria-label="Twitter/X">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/f1r3fly-io/" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://github.com/F1R3FLY-io" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a href="https://discord.gg/Z4Mdzcsp" target="_blank" rel="noopener" class="social-icon" aria-label="Discord">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+        </a>
+      </div>
     </div>
-    <p style="color:rgba(255,255,255,0.6); font-size:14px;">&copy; 2026 F1R3FLY.IO. All rights reserved.</p>
-    <p style="color:rgba(255,255,255,0.4); font-size:13px; margin-top:15px;">A Subsidiary of F1R3FLY Industries</p>
+
+    <!-- Column 2: Solutions -->
+    <div class="footer-col">
+      <h4 class="footer-heading">Solutions</h4>
+      <ul class="footer-links">
+        <li><a href="#technology">Consensus Chain Security</a></li>
+        <li><a href="#technology">Increase Throughput</a></li>
+        <li><a href="#technology">Code Validation</a></li>
+        <li><a href="#technology">Secure Data Sharing</a></li>
+        <li><a href="#technology">Mork</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Europe Office -->
+    <div class="footer-col">
+      <h4 class="footer-heading">Europe Office</h4>
+      <p class="footer-address">4-5 Langham Place<br>London, W1B 3DG</p>
+      <p class="footer-address"><a href="tel:+442034320078">+44 (0)203 432 0078</a></p>
+      <p class="footer-address"><a href="mailto:info@f1r3fly.com">info@f1r3fly.com</a></p>
+    </div>
+
+    <!-- Column 4: US Office -->
+    <div class="footer-col">
+      <h4 class="footer-heading">US Office</h4>
+      <p class="footer-address">Floor 17, 521 Fifth Avenue<br>New York, NY 10175</p>
+      <p class="footer-address"><a href="tel:+16464759644">+1 646 475 9644</a></p>
+      <p class="footer-address"><a href="mailto:info@f1r3fly.com">info@f1r3fly.com</a></p>
+    </div>
+
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <p>&copy; 2026 F1R3FLY. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Terms of Service</a>
+      <span>&middot;</span>
+      <a href="#">Privacy Policy</a>
+      <span>&middot;</span>
+      <a href="https://f1r3fly.com" target="_blank" rel="noopener">F1R3FLY Industries</a>
+    </div>
   </div>
 </footer>
 

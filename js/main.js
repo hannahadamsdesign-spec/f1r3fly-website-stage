@@ -29,23 +29,25 @@
   });
 
   // --- Smooth Scroll for Anchor Links ---
-  function smoothScrollTo(targetEl, duration) {
-    duration = duration || 1200;
+  function smoothScrollTo(targetEl) {
     const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 90;
     const startY = window.scrollY;
     const targetY = targetEl.getBoundingClientRect().top + startY - navHeight;
+    const distance = Math.abs(targetY - startY);
+    // Scale duration: 400ms minimum, 1200ms max, proportional to distance
+    const duration = Math.min(1200, Math.max(400, distance * 0.4));
     const diff = targetY - startY;
     let startTime = null;
 
-    function easeInOutCubic(t) {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    function easeOutQuart(t) {
+      return 1 - Math.pow(1 - t, 4);
     }
 
     function step(timestamp) {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      window.scrollTo(0, startY + diff * easeInOutCubic(progress));
+      window.scrollTo(0, startY + diff * easeOutQuart(progress));
       if (progress < 1) requestAnimationFrame(step);
     }
 
@@ -60,7 +62,7 @@
     if (target) {
       e.preventDefault();
       closeMobileMenu();
-      smoothScrollTo(target, 1200);
+      smoothScrollTo(target);
     }
   });
 
@@ -185,7 +187,7 @@
           this.speedX = left ? (0.3 + Math.random() * 0.4) : -(0.3 + Math.random() * 0.4);
         }
         this.speedY = (Math.random() - 0.5) * 0.2;
-        this.size = 2 + Math.random() * 3;
+        this.size = 1.2 + Math.random() * 2.8;
         this.baseAlpha = 0.4 + Math.random() * 0.6;
         this.alpha = 0;
         this.pulseSpeed = 0.008 + Math.random() * 0.015;
@@ -195,10 +197,28 @@
         this.wobbleSpeedX = 0.015 + Math.random() * 0.02;
         this.wobbleSpeedY = 0.01 + Math.random() * 0.015;
         this.wobbleAmp = 0.8 + Math.random() * 1.2;
-        const isWhite = Math.random() < 0.3;
-        this.hue = isWhite ? 60 : 40 + Math.random() * 20;
-        this.sat = isWhite ? 10 : 80 + Math.random() * 20;
-        this.lit = isWhite ? 90 : 55 + Math.random() * 20;
+        const roll = Math.random();
+        if (roll < 0.25) {
+          // warm yellow
+          this.hue = 45 + Math.random() * 15;
+          this.sat = 90 + Math.random() * 10;
+          this.lit = 60 + Math.random() * 15;
+        } else if (roll < 0.4) {
+          // amber-red
+          this.hue = 15 + Math.random() * 20;
+          this.sat = 85 + Math.random() * 15;
+          this.lit = 50 + Math.random() * 15;
+        } else if (roll < 0.55) {
+          // soft white
+          this.hue = 60;
+          this.sat = 10;
+          this.lit = 90;
+        } else {
+          // classic gold
+          this.hue = 40 + Math.random() * 20;
+          this.sat = 80 + Math.random() * 20;
+          this.lit = 55 + Math.random() * 20;
+        }
       }
 
       update() {
@@ -241,7 +261,7 @@
     }
 
     if (!prefersReducedMotion) {
-      const flies = Array.from({ length: 34 }, () => new Firefly(true));
+      const flies = Array.from({ length: 20 }, () => new Firefly(true));
       (function loop() {
         const w = window.innerWidth, h = heroSection.offsetHeight;
         ctx.clearRect(0, 0, w, h);
