@@ -711,6 +711,10 @@ h3 {
   flex-shrink: 0;
 }
 
+.parallax-ticker-boost {
+  opacity: 0.5;
+}
+
 @keyframes ticker-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -996,6 +1000,31 @@ h3 {
 .form-group textarea { min-height: 100px; resize: vertical; }
 .form-group select option { background: #111; color: var(--color-white); }
 
+/* --- Cross-link Banner --- */
+.crosslink-banner {
+  background: var(--gradient-teal);
+  padding: 30px 40px;
+  text-align: center;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.crosslink-banner + .site-footer {
+  margin-top: 0 !important;
+}
+
+.gradient-btn.btn-nav-cta {
+  background: var(--gradient-nav-cta);
+}
+
+.gradient-btn.btn-nav-cta:hover {
+  box-shadow: 0 10px 30px rgba(92, 2, 105, 0.4);
+}
+
 /* --- Footer --- */
 .site-footer {
   text-align: left;
@@ -1007,7 +1036,7 @@ h3 {
   max-width: var(--container-max);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr;
   gap: 40px;
 }
 
