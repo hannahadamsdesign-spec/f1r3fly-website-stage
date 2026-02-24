@@ -92,6 +92,8 @@ Chrome DevTools responsive emulation breaks `position: fixed` + `backdrop-filter
 - **Fixed: Content overlap on mobile** — Changed `.section-page` from `height` to `min-height` at base (mobile) level, so sections grow to fit content. Restored fixed `height: calc(85vh - var(--nav-height))` at 768px+ where content fits.
 - **Investigated: Nav scrolling away on mobile** — Confirmed this is a Chrome DevTools responsive emulation bug, NOT a CSS issue. Nav stays fixed in real narrow browser window. `position: fixed` + `backdrop-filter` has known DevTools emulation issues.
 - **Removed `overflow-x: hidden` from body** — Was on `body`, removed entirely (hero already contains parallax with its own `overflow: hidden`). Monitor for horizontal scroll on real devices.
+- **Client logos: 2-col grid on mobile** — Changed `.client-logo-grid` base from `repeat(4, 1fr)` to `repeat(2, 1fr)`, restores to 4-col at 768px+. Increased logo sizes from 55%/45% to 75%/60%.
+- **Client body text: stacked on mobile** — Replaced inline `2fr 1fr` grid with `.client-body-grid` class. Stacks single-column on mobile, 2-col at 768px+.
 
 ---
 

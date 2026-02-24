@@ -935,6 +935,48 @@ h2.faq-subsection-title {
   line-height: 1.4;
 }
 
+/* --- In-content links --- */
+.card a:not(.gradient-btn),
+.section-band a:not(.gradient-btn),
+.section a:not(.gradient-btn):not(.nav-logo):not(.carousel-logo):not(.social-icon):not(.hero-arrow) {
+  transition: color 0.3s ease;
+}
+.card a:not(.gradient-btn):hover,
+.section-band a:not(.gradient-btn):hover {
+  color: var(--color-highlight) !important;
+}
+
+/* Blog card links */
+a.blog-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: var(--color-card-bg);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border-faint);
+  padding: 30px;
+  transition: all 0.3s ease;
+}
+a.blog-card:hover {
+  border-color: transparent;
+  transform: scale(1.02);
+}
+a.blog-card:nth-child(3n+1):hover { background: var(--gradient-purple); }
+a.blog-card:nth-child(3n+2):hover { background: var(--gradient-teal); }
+a.blog-card:nth-child(3n+3):hover { background: var(--gradient-magenta); }
+
+a.blog-card .label { margin-bottom: 8px; }
+a.blog-card h3 { margin-bottom: 12px; }
+a.blog-card p { margin-bottom: var(--space-sm); }
+a.blog-card ul { margin-bottom: var(--space-sm); }
+a.blog-card .blog-date {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: auto;
+  padding-top: 12px;
+}
+
 /* --- Team Grid --- */
 .team-grid {
   display: grid;

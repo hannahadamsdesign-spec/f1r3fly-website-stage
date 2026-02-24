@@ -168,45 +168,50 @@
         if (initial) {
           this.x = Math.random() * w;
           this.y = Math.random() * h;
-          this.speedX = (Math.random() > 0.5 ? 1 : -1) * (0.3 + Math.random() * 0.4);
+          this.speedX = (Math.random() > 0.5 ? 1 : -1) * (0.15 + Math.random() * 0.2);
         } else {
           const left = Math.random() > 0.5;
           this.x = left ? -20 : w + 20;
           this.y = Math.random() * h;
-          this.speedX = left ? (0.3 + Math.random() * 0.4) : -(0.3 + Math.random() * 0.4);
+          this.speedX = left ? (0.15 + Math.random() * 0.2) : -(0.15 + Math.random() * 0.2);
         }
-        this.speedY = (Math.random() - 0.5) * 0.2;
-        this.size = 1.2 + Math.random() * 2.8;
+        this.speedY = (Math.random() - 0.5) * 0.1;
+        this.coreRadius = 1.5 + Math.random() * 2;
         this.baseAlpha = 0.4 + Math.random() * 0.6;
         this.alpha = 0;
-        this.pulseSpeed = 0.008 + Math.random() * 0.015;
+        this.pulseSpeed = 0.009 + Math.random() * 0.0125;
         this.pulsePhase = Math.random() * Math.PI * 2;
+        this.brightness = 0.7 + Math.random() * 0.3;
         this.wobbleX = Math.random() * Math.PI * 2;
         this.wobbleY = Math.random() * Math.PI * 2;
-        this.wobbleSpeedX = 0.015 + Math.random() * 0.02;
-        this.wobbleSpeedY = 0.01 + Math.random() * 0.015;
-        this.wobbleAmp = 0.8 + Math.random() * 1.2;
-        const roll = Math.random();
-        if (roll < 0.25) {
-          // warm yellow
-          this.hue = 45 + Math.random() * 15;
-          this.sat = 90 + Math.random() * 10;
-          this.lit = 60 + Math.random() * 15;
-        } else if (roll < 0.4) {
-          // amber-red
-          this.hue = 15 + Math.random() * 20;
-          this.sat = 85 + Math.random() * 15;
-          this.lit = 50 + Math.random() * 15;
-        } else if (roll < 0.55) {
-          // soft white
-          this.hue = 60;
-          this.sat = 10;
-          this.lit = 90;
+        this.wobbleSpeedX = 0.0075 + Math.random() * 0.01;
+        this.wobbleSpeedY = 0.005 + Math.random() * 0.0075;
+        this.wobbleAmp = 0.4 + Math.random() * 0.6;
+
+        // Vibrant orange-red palette (RGB)
+        const pick = Math.random();
+        if (pick < 0.25) {
+          this.r = 255; this.g = 165 + Math.random() * 25; this.b = 20 + Math.random() * 15;
+        } else if (pick < 0.6) {
+          this.r = 255; this.g = 110 + Math.random() * 30; this.b = 5 + Math.random() * 12;
         } else {
-          // classic gold
-          this.hue = 40 + Math.random() * 20;
-          this.sat = 80 + Math.random() * 20;
-          this.lit = 55 + Math.random() * 20;
+          this.r = 255; this.g = 60 + Math.random() * 40; this.b = 0 + Math.random() * 8;
+        }
+
+        // Spark filaments
+        this.numSpikes = 6 + Math.floor(Math.random() * 8);
+        this.spikes = [];
+        for (let i = 0; i < this.numSpikes; i++) {
+          this.spikes.push({
+            angle: (i / this.numSpikes) * Math.PI * 2 + (Math.random() - 0.5) * 0.6,
+            baseLength: 8 + Math.random() * 20,
+            wobblePhase: Math.random() * Math.PI * 2,
+            wobbleSpeed: 0.02 + Math.random() * 0.025,
+            flickerPhase: Math.random() * Math.PI * 2,
+            flickerSpeed: 0.04 + Math.random() * 0.06,
+            thickness: 0.5 + Math.random() * 1,
+            curvature: (Math.random() - 0.5) * 0.3,
+          });
         }
       }
 
@@ -228,29 +233,88 @@
         }
 
         this.pulsePhase += this.pulseSpeed;
-        this.alpha = this.baseAlpha * (0.6 + 0.4 * Math.sin(this.pulsePhase)) * fade;
+        const pulse = 0.4 + 0.6 * Math.sin(this.pulsePhase);
+        this.alpha = this.brightness * pulse * fade;
+
+        // Update spike animations
+        for (const s of this.spikes) {
+          s.wobblePhase += s.wobbleSpeed;
+          s.flickerPhase += s.flickerSpeed;
+        }
+
         if (this.x < -50 || this.x > w + 50 || this.y < -50 || this.y > h + 50) this.reset();
       }
 
       draw() {
-        if (this.alpha <= 0.05) return;
-        // Glow
-        const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 6);
-        g.addColorStop(0, `hsla(${this.hue},${this.sat}%,${this.lit}%,${this.alpha * 0.4})`);
-        g.addColorStop(0.3, `hsla(${this.hue},${this.sat}%,${this.lit}%,${this.alpha * 0.15})`);
-        g.addColorStop(1, `hsla(${this.hue},${this.sat}%,${this.lit}%,0)`);
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 6, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
-        // Core
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue},50%,85%,${this.alpha})`; ctx.fill();
-        // Center
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(60,20%,98%,${this.alpha})`; ctx.fill();
+        const a = this.alpha;
+        if (a < 0.01) return;
+        const { r, g, b } = this;
+        const cr = this.coreRadius;
+        const pulse = 0.4 + 0.6 * Math.sin(this.pulsePhase);
+
+        // 1. Warm glow haze
+        const glowR = cr * 10;
+        const glow = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowR);
+        glow.addColorStop(0, `rgba(${r},${g},${b},${a * 0.3})`);
+        glow.addColorStop(0.2, `rgba(${r},${g},${b},${a * 0.12})`);
+        glow.addColorStop(0.5, `rgba(${r},${Math.max(g-30,0)},${b},${a * 0.04})`);
+        glow.addColorStop(1, `rgba(${r},${Math.max(g-50,0)},0,0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, glowR, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 2. Spark filaments
+        for (const s of this.spikes) {
+          const wobble = Math.sin(s.wobblePhase) * 0.3;
+          const flicker = Math.max(0, Math.sin(s.flickerPhase));
+          const lenMult = 0.3 + 0.7 * flicker;
+          const spikeLen = s.baseLength * pulse * lenMult;
+          if (spikeLen < 2) continue;
+
+          const angle = s.angle + wobble;
+          const midFrac = 0.5;
+          const curveOff = Math.sin(s.wobblePhase * 1.3) * s.curvature * spikeLen;
+          const mx = this.x + Math.cos(angle) * spikeLen * midFrac + Math.cos(angle + Math.PI/2) * curveOff;
+          const my = this.y + Math.sin(angle) * spikeLen * midFrac + Math.sin(angle + Math.PI/2) * curveOff;
+          const ex = this.x + Math.cos(angle) * spikeLen;
+          const ey = this.y + Math.sin(angle) * spikeLen;
+
+          const grad = ctx.createLinearGradient(this.x, this.y, ex, ey);
+          grad.addColorStop(0, `rgba(255,${Math.min(g+50,255)},${Math.min(b+60,200)},${a * 0.85 * flicker})`);
+          grad.addColorStop(0.4, `rgba(${r},${g},${b},${a * 0.5 * flicker})`);
+          grad.addColorStop(1, `rgba(${r},${Math.max(g-40,0)},0,0)`);
+
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = s.thickness * (0.6 + 0.4 * pulse);
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          ctx.quadraticCurveTo(mx, my, ex, ey);
+          ctx.stroke();
+        }
+
+        // 3. Bright core
+        const coreGrad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, cr * 3);
+        coreGrad.addColorStop(0, `rgba(255,255,235,${a * 0.95})`);
+        coreGrad.addColorStop(0.25, `rgba(255,${Math.min(g+40,255)},${Math.min(b+50,200)},${a * 0.75})`);
+        coreGrad.addColorStop(0.6, `rgba(${r},${g},${b},${a * 0.3})`);
+        coreGrad.addColorStop(1, `rgba(${r},${Math.max(g-30,0)},0,0)`);
+        ctx.fillStyle = coreGrad;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, cr * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4. White-hot pinpoint
+        ctx.fillStyle = `rgba(255,255,240,${a * 0.9})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, cr * 0.5, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
     if (!prefersReducedMotion) {
-      const flies = Array.from({ length: 20 }, () => new Firefly(true));
+      const flies = Array.from({ length: 30 }, () => new Firefly(true));
       (function loop() {
         const w = window.innerWidth, h = heroSection.offsetHeight;
         ctx.clearRect(0, 0, w, h);
