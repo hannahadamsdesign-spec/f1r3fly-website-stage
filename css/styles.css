@@ -864,8 +864,8 @@ h3 {
 /* --- FAQ Accordion --- */
 .faq-accordion-item {
   overflow: hidden;
-  padding-bottom: 12px;
-  margin-bottom: 12px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .faq-accordion-item:last-child { margin-bottom: 0; }
@@ -917,6 +917,23 @@ h3 {
 }
 
 .faq-answer-accordion p:last-child { margin-bottom: 0; }
+
+/* --- FAQ Unified Section --- */
+.faq-subsection-label {
+  margin-top: 50px;
+  display: block;
+}
+
+h2.faq-subsection-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-weight: 100;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: var(--h2-to-body);
+  margin-top: var(--eyebrow-to-h2);
+  line-height: 1.4;
+}
 
 /* --- Team Grid --- */
 .team-grid {
