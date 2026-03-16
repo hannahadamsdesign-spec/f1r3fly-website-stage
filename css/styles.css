@@ -1,7 +1,7 @@
 /* ============================================
    F1R3FLY.IO — Rebuilt Mobile-First CSS
    ============================================
-   Brand: Black bg, purple/blue gradients, Brandon Grotesque headings
+   Brand: Black bg (#0A0A0A), section gradients, Josefin Sans headings
    Layout: CSS Grid + Flexbox, no fixed heights
    Approach: Mobile-first with breakpoints at 768px and 1024px
    ============================================ */
@@ -9,22 +9,22 @@
 /* --- Custom Properties (Brand System) --- */
 :root {
   /* Colors */
-  --color-bg: #000;
+  --color-bg: #000000;
   --color-text: rgba(255, 255, 255, 0.85);
   --color-text-muted: rgba(255, 255, 255, 0.6);
   --color-text-faint: rgba(255, 255, 255, 0.4);
   --color-white: #fff;
-  --color-accent: #03D5FF;
-  --color-highlight: #F5D731;
+  --color-accent: #3FA9F5;
+  --color-highlight: #F3D630;
   --color-border: rgba(255, 255, 255, 0.2);
   --color-border-faint: rgba(255, 255, 255, 0.08);
   --color-card-bg: rgba(20, 20, 25, 0.85);
   --color-card-bg-hover: rgba(30, 30, 35, 0.95);
 
   /* Gradients */
-  --gradient-brand: linear-gradient(90deg, #80D5FF 0%, #C6E0AB 89.42%, #FFE867 100%);
+  --gradient-brand: linear-gradient(90deg, #F3D630 0%, #8BB999 100%);
   --gradient-nav-cta: linear-gradient(90deg, #5c0269, #7b0429);
-  --gradient-developer: linear-gradient(90deg, #0063b0, #007a73);
+  --gradient-developer: linear-gradient(90deg, #007BC4, #009188);
   --gradient-client: linear-gradient(90deg, #5c0269, #7b0429);
   --gradient-partner: linear-gradient(90deg, #0c8e23, #7a9d0e);
   --gradient-neutral: linear-gradient(90deg, #2a3441, #3d4a5c);
@@ -37,8 +37,8 @@
   --gradient-section-neutral: linear-gradient(90deg, #282C2D 0%, #021135 100%);
 
   /* Typography */
-  --font-heading: 'brandon-grotesque', sans-serif;
-  --font-body: 'source-sans-pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Josefin Sans', sans-serif;
+  --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --leading-body: 1.7;
   --leading-tight: 1.3;
   --tracking-wide: 1.47px;
@@ -159,6 +159,7 @@ ul { list-style: none; }
 }
 
 .nav-logo-icon { height: 44px; width: auto; }
+.nav-logo-wordmark { height: 40px; width: auto; }
 
 
 
@@ -194,27 +195,22 @@ ul { list-style: none; }
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   white-space: nowrap;
-  color: var(--color-white);
   display: none;
   background: var(--gradient-brand);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  width: fit-content;
 }
 
 .nav-logo-subtitle a {
-  background: var(--gradient-brand);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-text-fill-color: inherit;
   text-decoration: none;
   transition: opacity 0.3s ease;
 }
 
 .nav-logo-subtitle a:hover {
-  background: var(--color-accent);
-  -webkit-background-clip: text;
-  background-clip: text;
+  opacity: 0.7;
 }
 
 .nav-logo:hover .nav-logo-text { color: var(--color-accent); }
@@ -415,7 +411,7 @@ ul { list-style: none; }
   align-items: center;
 }
 
-.hero-logo { max-width: 160px; margin: 0 auto 13px; }
+.hero-logo { max-width: 500px; margin: 0 auto 13px; }
 
 .hero-company-name {
   font-family: var(--font-heading);
@@ -604,9 +600,10 @@ h3 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  background-size: 100% 100%;
+  display: inline-block;
   margin-bottom: var(--eyebrow-to-h2);
   font-weight: 700;
-  display: block;
 }
 
 /* --- Card Grid --- */
@@ -633,7 +630,7 @@ h3 {
   margin-bottom: 12px;
 }
 
-.card h3 { font-size: 20px; font-weight: 400; margin-bottom: 12px; }
+.card h3 { font-family: var(--font-body); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
 .card p { font-size: 16px; color: var(--color-text); line-height: var(--leading-body); margin-bottom: 12px; }
 
 .card ul {
@@ -738,12 +735,8 @@ h3 {
   font-weight: 900;
   letter-spacing: 3px;
   text-transform: uppercase;
-  background: var(--gradient-brand);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: rgba(255, 255, 255, 0.35);
   mix-blend-mode: overlay;
-  opacity: 1;
   pointer-events: none;
   user-select: none;
 }
@@ -921,7 +914,6 @@ h3 {
 /* --- FAQ Unified Section --- */
 .faq-subsection-label {
   margin-top: 50px;
-  display: block;
 }
 
 h2.faq-subsection-title {
@@ -1298,10 +1290,10 @@ a.blog-card .blog-date {
   .nav-logo-icon { height: 50px; }
   .nav-logo-text { font-size: 20px; }
   .nav-logo-divider { display: inline; }
-  .nav-logo-subtitle { display: inline; }
+  .nav-logo-subtitle { display: inline-block; }
 
   .hero { padding: 120px 40px 80px; }
-  .hero-logo { max-width: 180px; }
+  .hero-logo { max-width: 500px; }
 
   .section { padding: var(--space-lg) 40px; }
   .section-page { height: calc(85vh - var(--nav-height)); }
@@ -1336,7 +1328,7 @@ a.blog-card .blog-date {
 
   .nav-logo-icon { height: 60px; }
 
-  .hero-logo { max-width: 196px; }
+  .hero-logo { max-width: 500px; }
 
   .card-grid { grid-template-columns: repeat(3, 1fr); }
   .text-grid { grid-template-columns: repeat(3, 1fr); }
