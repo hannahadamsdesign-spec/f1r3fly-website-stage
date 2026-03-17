@@ -1,5 +1,5 @@
 # F1R3FLY.IO Website — Dev Log
-*Last updated: February 23, 2026*
+*Last updated: March 17, 2026*
 
 ## Project Path
 `/Users/hannahadams/Library/CloudStorage/Dropbox/01 ACTIVE WORK/F1R3FLY PROJECTS/02 F1R3FLY Website/08 Website Rebuild/`
@@ -94,6 +94,28 @@ Chrome DevTools responsive emulation breaks `position: fixed` + `backdrop-filter
 - **Removed `overflow-x: hidden` from body** — Was on `body`, removed entirely (hero already contains parallax with its own `overflow: hidden`). Monitor for horizontal scroll on real devices.
 - **Client logos: 2-col grid on mobile** — Changed `.client-logo-grid` base from `repeat(4, 1fr)` to `repeat(2, 1fr)`, restores to 4-col at 768px+. Increased logo sizes from 55%/45% to 75%/60%.
 - **Client body text: stacked on mobile** — Replaced inline `2fr 1fr` grid with `.client-body-grid` class. Stacks single-column on mobile, 2-col at 768px+.
+
+---
+
+### Mar 16, 2026 — Session 4
+- **Typography swap:** Replaced Adobe Typekit (Brandon Grotesque) with Google Fonts (Josefin Sans 100/300/400/600/700 + Source Sans 3 300/400/600/700). Updated `--font-heading` and `--font-body` CSS variables. Zero remaining references to Brandon in codebase.
+- **Brand color corrections:** `--color-bg` → `#000000`, `--color-accent` → `#3FA9F5`, `--color-highlight` → `#F3D630`, `--gradient-brand` → `#F3D630 → #8BB999` (Yellow → Sage), `--gradient-developer` → `#007BC4 → #009188`.
+- **Logo replacement:** Nav now uses `f1r3fly-io-horizontal-logo.svg` (bug + wordmark baked in) via `.nav-logo-wordmark` class at 40px height. Hero uses `f1r3fly-io-vertical-logo.svg` at 200×178px. Removed separate `<h1>` heading and `.nav-logo-text` span since wordmark is in the SVG.
+- **Eyebrow labels:** Changed `.label` from `display: block` to `display: inline-block` so gradient maps to text width, not container width. Removed `display: block` from `.faq-subsection-label`. Gradient now renders Yellow→Sage correctly on all labels.
+- **Nav subtitle gradient fix:** Added `width: fit-content` to `.nav-logo-subtitle`. Removed duplicate gradient from child `<a>` — parent gradient now covers entire subtitle. Changed tablet breakpoint from `display: inline` to `display: inline-block`.
+- **Card h3 style:** Changed `.card h3` to Source Sans 3 (`--font-body`), 16px, bold (700) — matches body text size.
+- **Ticker text:** Changed from gradient text to `color: rgba(255, 255, 255, 0.35)` with `mix-blend-mode: overlay`.
+- **Full audit document created:** `F1R3FLY-Website-Audit-2026-03-16.md` — covers content, colors, typography, team roster, technical issues, deployment questions, prioritized fix list.
+
+---
+
+### Mar 17, 2026 — Session 5
+- **Blog cards built:** 17 expandable article cards injected via JS into `#blogGrid`. Each card: tag (AI & Agents / Compositionality / Developer / Philosophy), title, description, date, expand/collapse with key takeaways, Substack link. Content sourced from Daria's SEO delivery. Hover gradients cycle through purple, teal, magenta, green (6n rotation).
+- **Blog card CSS added to styles.css:** `.blog-parent`, `.blog-tag`, `.blog-expand-btn`, `.blog-child-grid`, `.blog-child`, expanded state (`grid-column: 1 / -1`), tag color classes (`.blog-tag-ai` #3FA9F5, `.blog-tag-comp` #F3D630, `.blog-tag-phil` #8BB999, `.blog-tag-dev` #009188).
+- **Quote band added** between Blog and Contact sections: Greg Meredith pull quote in `.section-band.neutral`.
+- **Bug fix: blog cards invisible (opacity: 0).** Cards were generated with `animate-in from-bottom` class, but IntersectionObserver had already run before JS injected the cards — so observer never fired on them. Cards rendered as transparent boxes. Fix: removed `animate-in from-bottom` from JS card generation (`card.className='blog-parent'`). Cards now render immediately. Fade-in animation can be restored later by re-triggering the observer after injection.
+- **Bug fix: section content bleed-through on tablet/desktop.** The 768px+ breakpoint set `.section-page { height: calc(85vh - var(--nav-height)) }` — a fixed height. Any section with content taller than 85vh (blog with 17 cards, plus others Daria flagged) overflowed, and subsequent sections rendered underneath the overflow. Fix: changed `height` to `min-height` at the 768px+ breakpoint, matching the mobile-first rule. The CSS comment already acknowledged this was the correct approach ("Mobile: min-height instead of height to prevent content overflow/overlap") — the tablet override just wasn't following it.
+- **Daria's keyword framework reviewed.** Document `key_words_for_the_web_site.docx` — five clusters: Core Intent, Pain Point Hooks, Use Case, Audience-Specific, Brand Differentiators. Directly useful for meta tags, alt text, and content strategy.
 
 ---
 
