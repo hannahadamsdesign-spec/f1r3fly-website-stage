@@ -10,9 +10,10 @@
 :root {
   /* Colors */
   --color-bg: #000000;
-  --color-text: rgba(255, 255, 255, 0.85);
-  --color-text-muted: rgba(255, 255, 255, 0.6);
-  --color-text-faint: rgba(255, 255, 255, 0.4);
+  /* ALL body text is white. No greys, no off-whites. Keep it this way forever. */
+  --color-text: #ffffff;
+  --color-text-muted: #ffffff;
+  --color-text-faint: rgba(255, 255, 255, 0.5);
   --color-white: #fff;
   --color-accent: #3FA9F5;
   --color-highlight: #F3D630;
@@ -924,7 +925,7 @@ h2.faq-subsection-title {
   font-size: clamp(1.8rem, 4vw, 2.75rem);
   font-weight: 100;
   letter-spacing: 0.5px;
-  color: rgba(255,255,255,0.5);
+  color: var(--color-white);
   margin-bottom: var(--h2-to-body);
   margin-top: var(--eyebrow-to-h2);
   line-height: 1.4;
@@ -974,8 +975,8 @@ a.blog-card .blog-date {
 
 /* --- Expandable Blog Cards --- */
 .blog-parent {
-  background: var(--color-card-bg);
-  border: 1px solid var(--color-border-faint);
+  background: transparent;
+  border: 1px dashed var(--color-border);
   border-radius: var(--border-radius);
   padding: 30px;
   cursor: pointer;
@@ -1000,7 +1001,7 @@ a.blog-card .blog-date {
 }
 .blog-parent.expanded:hover {
   transform: none;
-  background: var(--color-card-bg);
+  background: transparent;
   border-color: var(--color-border);
 }
 .blog-parent .blog-tag {
@@ -1024,14 +1025,15 @@ a.blog-card .blog-date {
   line-height: var(--leading-tight);
   color: var(--color-white);
 }
+/* Blog body text matches site standard: 16px, white. Keep consistent. */
 .blog-parent .blog-parent-desc {
-  font-size: 14px;
-  color: var(--color-text-muted);
+  font-size: 16px;
+  color: var(--color-text);
   line-height: var(--leading-body);
   margin-bottom: 16px;
 }
 .blog-parent .blog-parent-date {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-text-faint);
 }
 .blog-expand-btn {
@@ -1040,7 +1042,7 @@ a.blog-card .blog-date {
   right: 16px;
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: none;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -1054,7 +1056,6 @@ a.blog-card .blog-date {
   line-height: 1;
 }
 .blog-expand-btn:hover {
-  border-color: rgba(255,255,255,0.3);
   color: var(--color-white);
 }
 .blog-parent.expanded .blog-expand-btn {
@@ -1075,33 +1076,64 @@ a.blog-card .blog-date {
   opacity: 1;
   margin-top: 24px;
 }
+/* Expanded detail: content fills full card width */
+.blog-parent.expanded .blog-child {
+  width: 100%;
+}
+.blog-parent.expanded .blog-child ul {
+  width: 100%;
+  padding-left: 1.2em;
+}
+.blog-parent.expanded .blog-child ul li {
+  margin-bottom: 10px;
+}
+.blog-parent.expanded .blog-child p {
+  width: 100%;
+}
 .blog-child {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
-  padding: 18px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   transition: all 0.3s;
 }
 .blog-child:hover {
-  border-color: rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.05);
+  border-color: transparent;
+  background: transparent;
 }
 .blog-child h4 {
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   margin-bottom: 8px;
   color: var(--color-white);
   line-height: var(--leading-tight);
 }
+/* Expanded detail text: 16px white, same as all body text sitewide. */
 .blog-child .blog-child-desc {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  line-height: 1.45;
+  font-size: 16px;
+  color: var(--color-text);
+  line-height: var(--leading-body);
+  margin-bottom: 12px;
+}
+/* All text inside expanded blog cards: 16px white. Matches homepage card standard. */
+.blog-child ul {
+  font-size: 16px;
+  color: var(--color-text);
+  line-height: var(--leading-body);
+  padding-left: 20px;
+  margin-bottom: 16px;
+  list-style: disc;
+}
+.blog-child li { margin-bottom: 4px; }
+.blog-child p {
+  font-size: 16px;
+  color: var(--color-text);
+  line-height: var(--leading-body);
   margin-bottom: 12px;
 }
 .blog-child .blog-child-link {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   text-decoration: none;
   transition: opacity 0.2s;
