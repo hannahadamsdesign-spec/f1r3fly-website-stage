@@ -28,30 +28,34 @@
     link.addEventListener('click', closeMobileMenu);
   });
 
+  // --- Shared Scroll Function ---
+  // Uses native scrollIntoView() which respects CSS scroll-margin-top.
+  // All scroll offset math is in CSS, not JS. Nothing to calculate.
+  function scrollToSection(sectionId, smooth) {
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+    section.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+  }
+
   // --- Anchor Link Click Handler ---
-  // Manually calculate scroll position for all anchor clicks.
-  // Reasons: scrollIntoView() doesn't reliably respect scroll-margin-top,
-  // and the mobile menu's body overflow reset causes reflow issues.
   document.addEventListener('click', function (e) {
-    const link = e.target.closest('a[href^="#"]');
+    var link = e.target.closest('a[href^="#"]');
     if (!link) return;
 
-    const targetId = link.getAttribute('href');
-    const target = document.querySelector(targetId);
+    var targetId = link.getAttribute('href').substring(1);
+    var target = document.getElementById(targetId);
     if (!target) return;
 
     e.preventDefault();
 
-    const isMenuOpen = overlay?.classList.contains('active');
+    var isMenuOpen = overlay?.classList.contains('active');
     if (isMenuOpen) {
       closeMobileMenu();
     }
 
-    // Use rAF to let any layout changes (menu close) settle first
-    requestAnimationFrame(() => {
-      const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height'));
-      const targetPos = target.getBoundingClientRect().top + window.scrollY - navHeight;
-      window.scrollTo({ top: targetPos, behavior: 'smooth' });
+    requestAnimationFrame(function () {
+      scrollToSection(targetId, true);
+      history.replaceState(null, '', '#' + targetId);
     });
   });
 
@@ -487,18 +491,11 @@
         }
 
         // Scroll: either to a specific section or to top
-        document.documentElement.style.scrollBehavior = 'auto';
         if (scrollToId) {
-          var target = document.getElementById(scrollToId);
-          if (target) {
-            var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
-            var pos = target.getBoundingClientRect().top + window.scrollY - navH;
-            window.scrollTo(0, pos);
-          }
+          scrollToSection(scrollToId, false);
         } else {
-          window.scrollTo(0, 0);
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }
-        document.documentElement.style.scrollBehavior = '';
 
         // Phase 3: re-bind interactive elements
         rebindBlogCards();
@@ -587,17 +584,10 @@
   var params = new URLSearchParams(window.location.search);
   var scrollTarget = params.get('scrollto');
   if (scrollTarget) {
-    var scrollEl = document.getElementById(scrollTarget);
-    if (scrollEl) {
-      document.documentElement.style.scrollBehavior = 'auto';
-      var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
-      var pos = scrollEl.getBoundingClientRect().top + window.scrollY - navH;
-      window.scrollTo(0, pos);
-      setTimeout(function() {
-        history.replaceState(null, '', window.location.pathname + '#' + scrollTarget);
-        document.documentElement.style.scrollBehavior = '';
-      }, 50);
-    }
+    scrollToSection(scrollTarget, false);
+    setTimeout(function() {
+      history.replaceState(null, '', window.location.pathname + '#' + scrollTarget);
+    }, 50);
   }
 
   // Set initial history state
