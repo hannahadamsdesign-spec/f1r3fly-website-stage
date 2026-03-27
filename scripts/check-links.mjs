@@ -11,7 +11,7 @@
  * Exit code 0 = all links OK, 1 = broken links found.
  */
 
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { resolve, dirname, relative, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -22,6 +22,15 @@ const SKIP_SCHEMES = ["mailto:", "tel:", "javascript:", "data:"];
 const SKIP_EXTERNAL_DOMAINS = [
   "fonts.googleapis.com",
   "fonts.gstatic.com",
+];
+const BLOCKED_EXTERNAL_HOSTS = [
+  /^localhost$/,
+  /^127\./,
+  /^10\./,
+  /^172\.(1[6-9]|2\d|3[01])\./,
+  /^192\.168\./,
+  /^0\./,
+  /^\[::1\]$/,
 ];
 
 // Parse CLI args
@@ -51,7 +60,7 @@ function getIds(filePath) {
   const ids = new Set();
   try {
     const html = readFileSync(filePath, "utf-8");
-    const re = /\bid=["']([^"']+)["']/gi;
+    const re = /\bid\s*=\s*["']([^"']+)["']/gi;
     let m;
     while ((m = re.exec(html)) !== null) {
       ids.add(m[1]);
@@ -70,21 +79,41 @@ function getIds(filePath) {
 function extractLinks(filePath) {
   const html = readFileSync(filePath, "utf-8");
   const links = [];
-  const re = /\b(?:href|src)=["']([^"']*?)["']/gi;
-  let lineNum = 1;
-  let lastIndex = 0;
+  const re = /\b(?:href|src)\s*=\s*["']([^"']*?)["']/gi;
+
+  // Precompute line start offsets for O(log n) line lookups
+  const lineOffsets = [0];
+  for (let i = 0; i < html.length; i++) {
+    if (html[i] === "\n") lineOffsets.push(i + 1);
+  }
+  function offsetToLine(offset) {
+    let lo = 0, hi = lineOffsets.length - 1;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >> 1;
+      if (lineOffsets[mid] <= offset) lo = mid; else hi = mid - 1;
+    }
+    return lo + 1;
+  }
+
+  // Build ranges of <script>...</script> to skip JS href assignments
+  const scriptRanges = [];
+  const scriptRe = /<script[\s>]/gi;
+  const scriptEndRe = /<\/script>/gi;
+  let sm;
+  while ((sm = scriptRe.exec(html)) !== null) {
+    scriptEndRe.lastIndex = sm.index;
+    const em = scriptEndRe.exec(html);
+    if (em) scriptRanges.push([sm.index, em.index + em[0].length]);
+  }
+  function insideScript(offset) {
+    return scriptRanges.some(([s, e]) => offset >= s && offset < e);
+  }
 
   let m;
   while ((m = re.exec(html)) !== null) {
-    // Count newlines between last match and this one to track line number
-    const slice = html.slice(lastIndex, m.index);
-    for (let i = 0; i < slice.length; i++) {
-      if (slice[i] === "\n") lineNum++;
-    }
-    lastIndex = m.index;
-
+    if (insideScript(m.index)) continue;
     const url = m[1].trim();
-    if (url) links.push({ url, line: lineNum });
+    if (url) links.push({ url, line: offsetToLine(m.index) });
   }
   return links;
 }
@@ -98,6 +127,11 @@ async function checkExternalUrl(url) {
     const hostname = new URL(url).hostname;
     if (SKIP_EXTERNAL_DOMAINS.includes(hostname)) {
       const result = { ok: true, reason: "skipped (trusted domain)" };
+      externalCache.set(url, result);
+      return result;
+    }
+    if (BLOCKED_EXTERNAL_HOSTS.some((re) => re.test(hostname))) {
+      const result = { ok: false, reason: "blocked (private/internal address)" };
       externalCache.set(url, result);
       return result;
     }
@@ -199,8 +233,18 @@ async function main() {
         continue;
       }
 
-      // Resolve to filesystem path
-      const target = resolve(dirname(file), localPath);
+      // Resolve to filesystem path (directories resolve to index.html)
+      let target = resolve(dirname(file), localPath);
+
+      if (existsSync(target) && statSync(target).isDirectory()) {
+        const indexPath = join(target, "index.html");
+        if (existsSync(indexPath)) {
+          target = indexPath;
+        } else {
+          broken.push({ file, line, url, reason: `directory missing index.html: ${relative(SITE_ROOT, target)}/` });
+          continue;
+        }
+      }
 
       if (!existsSync(target)) {
         broken.push({ file, line, url, reason: `file not found: ${relative(SITE_ROOT, target)}` });
