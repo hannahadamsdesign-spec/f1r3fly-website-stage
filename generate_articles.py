@@ -105,7 +105,7 @@ def build(a):
   <meta property="og:title" content="{de(a["title"])} \u2014 F1R3FLY.IO">
   <meta property="og:description" content="{de(a["desc"])}">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://f1r3fly.io/f1r3fly-io-website/articles/{a["slug"]}.html">
+  <meta property="og:url" content="https://f1r3fly.io/articles/{a["slug"]}.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300;400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap">
