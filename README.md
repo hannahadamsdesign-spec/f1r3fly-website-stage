@@ -4,9 +4,9 @@ The official website for F1R3FLY.IO — an AI-native Layer 1 platform built on R
 
 ## Live Site
 
-**https://f1r3fly.io/f1r3fly-io-website/**
+**https://f1r3fly.io/**
 
-Deployed via GitHub Pages from the [F1R3FLY-io/f1r3fly-io-website](https://github.com/F1R3FLY-io/f1r3fly-io-website) organization repository.
+Deployed via GitHub Pages from the [F1R3FLY-io/f1r3fly-io-website](https://github.com/F1R3FLY-io/f1r3fly-io-website) organization repository. This is the main home page for the F1R3FLY.IO website.
 
 ## Tech Stack
 
@@ -58,7 +58,7 @@ This only needs to be done once per clone.
 
 ## Deployment
 
-Files from this working folder are manually uploaded to the `F1R3FLY-io/f1r3fly-io-website` organization repository. GitHub Pages serves the site from the `main` branch root.
+GitHub Pages serves the site from the `main` branch root at the custom domain `f1r3fly.io`.
 
 ## Design
 
