@@ -340,7 +340,15 @@ function F1R3Pix() {
     await sh.set(`${PFX_P}${id}`, { id, name, joinedAt: Date.now() }); await sh.set(MY_ID, id, false);
     const existingHost = await sh.get(SHARD_HOST);
     if (!existingHost) { await sh.set(SHARD_HOST, { id, name }); await sh.set(SHARD_SHAPE, DEFAULT_SHAPE); setHostId(id); setHostName(name); }
-    setMyId(id); setMyName(name); await syncAll(); setPhase("play");
+    setMyId(id); setMyName(name); await syncAll(); 
+    // Force scroll to top before showing game view (mobile)
+    window.scrollTo({top: 0, left: 0, behavior: "instant"});
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    setPhase("play");
+    setTimeout(() => { window.scrollTo(0,0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }, 0);
+    setTimeout(() => { window.scrollTo(0,0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }, 50);
+    setTimeout(() => { window.scrollTo(0,0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }, 200);
   };
   const handleChangeShape = async (s) => { setCanvasShape(s); await sh.set(SHARD_SHAPE, s); };
   const handleToggleLock = async () => { const v = !shapeUnlocked; setShapeUnlocked(v); await sh.set(SHARD_SHAPE_UNLOCKED, v); };
@@ -367,7 +375,7 @@ function F1R3Pix() {
   // ── GAME VIEW ──────────────────────────────────────────────
   return (
     <div style={{ minHeight: "100vh", background: "#000", color: "#fff", fontFamily: FB, display: "flex", flexDirection: "column" }}>
-      <div id="top" ref={el => { if (el && window.innerWidth <= 768) el.scrollIntoView(); }} />
+      <div id="top" />
       <style>{BRAND_FONTS}{`
         ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:transparent}
         ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px}
@@ -453,9 +461,12 @@ function F1R3Pix() {
           <div style={{ fontSize: 16, color: BRAND.textMuted, letterSpacing: 2, fontFamily: FH, marginTop: 8 }}>PLAYERS</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {allPlayers.map(p => (
-              <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 6, opacity: p.id === myId ? 1 : .6 }}>
-                <Sigil seed={hSeed(p.id)} size={18} />
-                <span style={{ fontSize: 16, color: p.id === myId ? BRAND.yellow : "#ccc", fontFamily: FB }}>
+              <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 8, opacity: p.id === myId ? 1 : .7 }}>
+                <div style={{ position: "relative" }}>
+                  <Sigil seed={hSeed(p.id)} size={26} />
+                  <div style={{ position: "absolute", bottom: -1, right: -1, width: 8, height: 8, borderRadius: "50%", background: "#4CD964", border: "2px solid #000" }} />
+                </div>
+                <span style={{ fontSize: 16, color: p.id === myId ? BRAND.yellow : "#fff", fontFamily: FB }}>
                   {p.name}{p.id === hostId && <span style={{ fontSize: 12, color: BRAND.textDim, marginLeft: 4, fontStyle: "italic" }}>(Host)</span>}
                 </span>
               </div>
