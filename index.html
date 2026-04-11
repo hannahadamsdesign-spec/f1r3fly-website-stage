@@ -201,7 +201,7 @@ function CanvasShapeControls({ currentShape, hostName, isHost, isUnlocked, canCh
     if (pixelCount > 0 && (next.w < cur.w || next.h < cur.h)) { setConfirmTarget(key); } else { onChangeShape(key); }
   };
   return (
-    <div style={{ padding: 12, borderRadius: 6, border: "1px solid", borderImage: `${BRAND.stroke} 1`, background: "rgba(0,0,0,0.4)" }}>
+    <div style={{ padding: 12, borderRadius: 6, border: `1px solid ${BRAND.border}`, background: "rgba(0,0,0,0.4)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <div style={{ fontSize: 16, color: BRAND.textMuted, letterSpacing: 2, fontFamily: FH }}>CANVAS</div>
         {isHost && (
@@ -349,7 +349,7 @@ function F1R3Pix() {
 
   const handleWheel = useCallback((e) => { e.preventDefault(); setZoom(z => { const next = e.deltaY > 0 ? z - 0.1 : z + 0.1; return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(next * 10) / 10)); }); }, []);
   useEffect(() => { const el = gridContainerRef.current; if (!el) return; el.addEventListener("wheel", handleWheel, { passive: false }); return () => el.removeEventListener("wheel", handleWheel); }, [handleWheel, phase]);
-  useEffect(() => { if (phase !== "play") return; const sW = window.innerWidth > 768 ? 240 : 0; const vw = window.innerWidth - sW; const vh = window.innerWidth <= 768 ? window.innerHeight * 0.55 : window.innerHeight - 90; const gpw = gridW * (CELL + 1); const gph = gridH * (CELL + 1); const fit = Math.min(vw / gpw, vh / gph, MAX_ZOOM); setZoom(Math.max(MIN_ZOOM, Math.round(fit * 10) / 10)); }, [phase, gridW, gridH]);
+  useEffect(() => { if (phase !== "play") return; const sW = window.innerWidth > 768 ? 280 : 0; const vw = window.innerWidth - sW; const vh = window.innerWidth <= 768 ? window.innerHeight * 0.55 : window.innerHeight - 90; const gpw = gridW * (CELL + 1); const gph = gridH * (CELL + 1); const fit = Math.min(vw / gpw, vh / gph, MAX_ZOOM); setZoom(Math.max(MIN_ZOOM, Math.round(fit * 10) / 10)); }, [phase, gridW, gridH]);
 
   const pixelCount = Object.values(grid).filter(p => p.by).length;
   const isHost = myId === hostId;
@@ -379,9 +379,9 @@ function F1R3Pix() {
           <span className="game-header-title" style={{ fontSize: 29, fontWeight: 700, letterSpacing: 4, fontFamily: FH, color: "#fff" }}>F1R3<span style={{ color: BRAND.yellow }}>PIX</span></span>
           <span className="game-header-stats" style={{ fontSize: 16, color: "#ccc", letterSpacing: 2, fontFamily: FB }}>{allPlayers.length} players | {pixelCount} pixels | shard {shardOk ? "live" : "offline"}</span>
         </div>
-        <div className="zoom-controls" style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, justifyContent: "flex-end" }}>
-          <button className="tour-btn" style={{ background: "linear-gradient(135deg, #5c0269, #7b0429)", border: "none", color: "#fff", borderRadius: 6, padding: "6px 16px", fontSize: 13, cursor: "pointer", fontFamily: FH, letterSpacing: 2, fontWeight: 600, boxShadow: "0 0 12px rgba(123,4,41,0.3)" }}>TAKE A TOUR</button>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <div className="zoom-controls" style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, justifyContent: "space-between" }}>
+          <button className="tour-btn" style={{ background: "linear-gradient(135deg, #5c0269, #7b0429)", border: "none", color: "#fff", borderRadius: 6, padding: "6px 16px", fontSize: 13, cursor: "pointer", fontFamily: FH, letterSpacing: 2, fontWeight: 600, boxShadow: "0 0 12px rgba(123,4,41,0.3)", flexShrink: 0 }}>TAKE A TOUR</button>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
           <button className="zoom-btn" onClick={() => setZoom(z => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 10) / 10))} style={{ background: "none", border: `1px solid ${BRAND.border}`, color: "#ccc", borderRadius: 4, width: 36, height: 36, fontSize: 22, cursor: "pointer", fontFamily: FH, display: "flex", alignItems: "center", justifyContent: "center" }}>-</button>
           <span style={{ fontSize: 16, color: BRAND.textMuted, fontFamily: FM, minWidth: 50, textAlign: "center" }}>{Math.round(zoom * 100)}%</span>
           <button className="zoom-btn" onClick={() => setZoom(z => Math.min(MAX_ZOOM, Math.round((z + 0.1) * 10) / 10))} style={{ background: "none", border: `1px solid ${BRAND.border}`, color: "#ccc", borderRadius: 4, width: 36, height: 36, fontSize: 22, cursor: "pointer", fontFamily: FH, display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
@@ -410,7 +410,7 @@ function F1R3Pix() {
         </div>
 
         {/* Sidebar — wider (240px), more breathing room */}
-        <div className="game-sidebar" style={{ width: 240, borderLeft: "1px solid", borderImage: `${BRAND.stroke} 1`, padding: "20px 18px", display: "flex", flexDirection: "column", gap: 20, overflowY: "auto", background: "#000" }}>
+        <div className="game-sidebar" style={{ width: 280, borderLeft: `1px solid ${BRAND.border}`, padding: "20px 20px", display: "flex", flexDirection: "column", gap: 20, overflowY: "auto", background: "#000" }}>
           <div style={{ fontSize: 16, color: BRAND.textMuted, letterSpacing: 2, fontFamily: FH }}>PALETTE</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px 6px" }}>
             {PALETTE.map(c => (
@@ -440,7 +440,7 @@ function F1R3Pix() {
           </div>
 
           {/* F1R3 SIGNALS — same size heading as PALETTE and PLAYERS */}
-          <div style={{ marginTop: 16, padding: 12, borderRadius: 6, border: "1px solid", borderImage: `${BRAND.stroke} 1`, background: "rgba(0,0,0,0.4)" }}>
+          <div style={{ marginTop: 16, padding: 12, borderRadius: 6, border: `1px solid ${BRAND.border}`, background: "rgba(0,0,0,0.4)" }}>
             <div style={{ fontSize: 16, color: BRAND.textMuted, letterSpacing: 2, fontFamily: FH, marginBottom: 8 }}>F1R3 SIGNALS</div>
             <div style={{ fontSize: 14, color: "#ccc", fontFamily: FB, marginBottom: 10, lineHeight: 1.4 }}>How does this F1R3PIX make you feel?</div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px 6px" }}>
