@@ -349,9 +349,7 @@ function F1R3Pix() {
 
   const handleWheel = useCallback((e) => { e.preventDefault(); setZoom(z => { const next = e.deltaY > 0 ? z - 0.1 : z + 0.1; return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(next * 10) / 10)); }); }, []);
   useEffect(() => { const el = gridContainerRef.current; if (!el) return; el.addEventListener("wheel", handleWheel, { passive: false }); return () => el.removeEventListener("wheel", handleWheel); }, [handleWheel, phase]);
-  useEffect(() => { if (phase !== "play") return; const sW = window.innerWidth > 768 ? 560 : 0;
-  // Scroll to top on mobile so header is visible on load
-  if (window.innerWidth <= 768) { requestAnimationFrame(() => { document.getElementById('top')?.scrollIntoView(); }); } const vw = window.innerWidth - sW; const vh = window.innerWidth <= 768 ? window.innerHeight * 0.55 : window.innerHeight - 90; const gpw = gridW * (CELL + 1); const gph = gridH * (CELL + 1); const fit = Math.min(vw / gpw, vh / gph, MAX_ZOOM); setZoom(Math.max(MIN_ZOOM, Math.round(fit * 10) / 10)); }, [phase, gridW, gridH]);
+  useEffect(() => { if (phase !== "play") return; const sW = window.innerWidth > 768 ? 560 : 0; const vw = window.innerWidth - sW; const vh = window.innerWidth <= 768 ? window.innerHeight * 0.55 : window.innerHeight - 90; const gpw = gridW * (CELL + 1); const gph = gridH * (CELL + 1); const fit = Math.min(vw / gpw, vh / gph, MAX_ZOOM); setZoom(Math.max(MIN_ZOOM, Math.round(fit * 10) / 10)); }, [phase, gridW, gridH]);
 
   const pixelCount = Object.values(grid).filter(p => p.by).length;
   const isHost = myId === hostId;
@@ -369,7 +367,7 @@ function F1R3Pix() {
   // ── GAME VIEW ──────────────────────────────────────────────
   return (
     <div style={{ minHeight: "100vh", background: "#000", color: "#fff", fontFamily: FB, display: "flex", flexDirection: "column" }}>
-      <div id="top" />
+      <div id="top" ref={el => { if (el && window.innerWidth <= 768) el.scrollIntoView(); }} />
       <style>{BRAND_FONTS}{`
         ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:transparent}
         ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px}
