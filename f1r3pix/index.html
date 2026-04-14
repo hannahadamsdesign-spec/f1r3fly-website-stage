@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>F1R3PIX — Draft Review v1r3 (Hannah Adams, April 2026)</title>
+<title>F1R3PIX — Draft Review v2r1 (Hannah Adams, April 2026)</title>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
@@ -61,7 +61,7 @@ const { useState, useEffect, useCallback, useRef } = React;
 // ══════════════════════════════════════════════════════════════════
 // F1R3PIX — Draft Review v1r2
 // F1R3FLY Brand Book March 27, 2026 — Hannah Adams
-// v1r3: Hexagonal canvas grid + position paper alignment
+// v2r1: Token balance, send, and transaction log added
 // ══════════════════════════════════════════════════════════════════
 
 const BRAND = {
@@ -356,7 +356,7 @@ function JoinScreen({ onJoin, players }) {
         <div style={{ width: 160, height: 1, background: BRAND.border, margin: "0 auto" }} />
         <div style={{ height: 50 }} />
         <div style={{ border: `1px solid ${BRAND.border}`, borderRadius: 12, padding: "40px 48px", display: "inline-block" }}>
-          <h1 className="join-title" style={{ margin: "0 0 12px", fontSize: 34, fontWeight: 700, letterSpacing: 8, color: "#fff", fontFamily: FP }}>
+          <h1 className="join-title" style={{ margin: "0 0 12px", fontSize: 68, fontWeight: 700, letterSpacing: 8, color: "#fff", fontFamily: FP }}>
             F1R3<span style={{ color: BRAND.yellow }}>PIX</span>
           </h1>
           <div className="join-subtitle" style={{ fontSize: 18, color: "#fff", letterSpacing: 3, fontWeight: 400 }}>MANY MINDS. ONE CANVAS.</div>
@@ -400,6 +400,13 @@ function F1R3Pix() {
   const [signal, setSignal] = useState(null);
   const [signalConfirm, setSignalConfirm] = useState(false);
   const [showTour, setShowTour] = useState(false);
+  const [tokenBalance, setTokenBalance] = useState(1000);
+  const [sendAmount, setSendAmount] = useState("");
+  const [sendTarget, setSendTarget] = useState("");
+  const [tokenLog, setTokenLog] = useState([
+    { id: 1, from: "sim-claude", to: null, fromName: "Claude", toName: "You", amount: 50, ts: Date.now() - 120000 },
+    { id: 2, from: null, to: "sim-grok", fromName: "You", toName: "Grok", amount: 25, ts: Date.now() - 90000 },
+  ]);
   const pollRef = useRef(null);
   const gridContainerRef = useRef(null);
 
@@ -440,6 +447,32 @@ function F1R3Pix() {
   const handleToggleLock = async () => { const v = !shapeUnlocked; setShapeUnlocked(v); await sh.set(SHARD_SHAPE_UNLOCKED, v); };
   const placePixel = async (x, y) => { if (!myId) return; const px = { x, y, color: selColor, by: myId, byName: myName, ts: Date.now() }; await sh.set(`${PFX_PX}${x}-${y}`, px); setGrid(prev => ({ ...prev, [`${x},${y}`]: px })); };
   const leave = async () => { if (myId) { await sh.del(`${PFX_P}${myId}`); await sh.set(MY_ID, null, false); } setMyId(null); setPhase("join"); await loadPlayers(); };
+
+  const sendTokens = useCallback(() => {
+    const amt = parseInt(sendAmount);
+    if (!amt || amt <= 0 || amt > tokenBalance || !sendTarget) return;
+    const targetPlayer = allPlayers.find(p => p.id === sendTarget);
+    if (!targetPlayer) return;
+    setTokenLog(prev => [...prev, { id: Date.now(), from: myId, to: sendTarget, fromName: myName, toName: targetPlayer.name, amount: amt, ts: Date.now() }]);
+    setTokenBalance(prev => prev - amt);
+    setSendAmount("");
+    setSendTarget("");
+  }, [sendAmount, tokenBalance, sendTarget, myId, myName, allPlayers]);
+
+  // Simulate occasional AI-to-AI token transfers for atmosphere
+  useEffect(() => {
+    if (phase !== "play") return;
+    const interval = setInterval(() => {
+      const aiPlayers = fakeUsers;
+      if (aiPlayers.length < 2) return;
+      const from = aiPlayers[Math.floor(Math.random() * aiPlayers.length)];
+      let to = aiPlayers[Math.floor(Math.random() * aiPlayers.length)];
+      while (to.id === from.id) to = aiPlayers[Math.floor(Math.random() * aiPlayers.length)];
+      const amt = Math.floor(Math.random() * 30) + 5;
+      setTokenLog(prev => [...prev, { id: Date.now() + Math.random(), from: from.id, to: to.id, fromName: from.name, toName: to.name, amount: amt, ts: Date.now() }]);
+    }, 8000 + Math.random() * 7000);
+    return () => clearInterval(interval);
+  }, [phase]);
 
   const handleWheel = useCallback((e) => { e.preventDefault(); setZoom(z => { const next = e.deltaY > 0 ? z - 0.1 : z + 0.1; return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(next * 10) / 10)); }); }, []);
   useEffect(() => { const el = gridContainerRef.current; if (!el) return; el.addEventListener("wheel", handleWheel, { passive: false }); return () => el.removeEventListener("wheel", handleWheel); }, [handleWheel, phase]);
@@ -494,25 +527,59 @@ function F1R3Pix() {
         <div className="game-sidebar game-sidebar-left" style={{ width: 300, borderRight: `1px solid ${BRAND.border}`, padding: "20px 16px", display: "flex", flexDirection: "column", gap: 20, overflowY: "auto", background: "#000" }}>
           <CanvasShapeControls currentShape={canvasShape} hostName={hostName || "host"} isHost={isHost} isUnlocked={shapeUnlocked} canChange={canChange} onChangeShape={handleChangeShape} onToggleLock={handleToggleLock} pixelCount={pixelCount} />
 
-          {/* F1R3 SIGNALS — expanded */}
-          <div style={{ padding: 16, borderRadius: 6, border: `1px solid ${BRAND.sky}33`, background: "rgba(63,169,245,0.04)" }}>
-            <div style={{ fontSize: 20, color: BRAND.sky, letterSpacing: 3, fontFamily: FH, marginBottom: 4, fontWeight: 600 }}>F1R3 SIGNALS</div>
-            <div style={{ fontSize: 18, color: "#fff", fontFamily: FB, marginBottom: 12, fontWeight: 300, letterSpacing: 1 }}>not a like button — a feeling</div>
-            <div style={{ fontSize: 15, color: "#fff", fontFamily: FB, marginBottom: 14, lineHeight: 1.5 }}>How does this F1R3PIX make you feel?</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "14px 8px", justifyItems: "center" }}>
-              {[BRAND.yellow, BRAND.sage, BRAND.sky, "#7b0429", "#5c0269", "#009188", "#0c8e23", "#1114ad", "#FFFFFF", "#3f3f3f"].map(c => (
-                <div key={`sig-l-${c}`} style={{ width: 28, height: 28, borderRadius: "50%", background: c, cursor: "pointer",
-                  border: signal === c ? "2px solid #fff" : "1px solid rgba(255,255,255,0.1)",
-                  transition: "transform 0.15s, box-shadow 0.15s", transform: signal === c ? "scale(1.3)" : "scale(1)" }}
-                onClick={() => { setSignal(c); setSignalConfirm(true); setTimeout(() => setSignalConfirm(false), 2500); }}
-                onMouseEnter={e => { if (signal !== c) { e.target.style.transform = "scale(1.3)"; e.target.style.boxShadow = `0 0 10px ${c}66`; }}}
-                onMouseLeave={e => { if (signal !== c) { e.target.style.transform = "scale(1)"; e.target.style.boxShadow = "none"; }}} />
-              ))}
+          {/* F1R3 SIGNALS moved to right sidebar */}
+
+          {/* ── F1R3CAP — Token Balance + Send + Log ───────────── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {/* Balance */}
+            <div style={{ padding: 14, borderRadius: 6, border: `1px solid ${BRAND.yellow}33`, background: "rgba(243,214,48,0.04)" }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: BRAND.yellow, fontFamily: FH, marginBottom: 6, fontWeight: 600 }}>F1R3CAP BALANCE</div>
+              <div style={{ fontSize: 32, fontWeight: 700, fontFamily: FH, color: BRAND.yellow, letterSpacing: 2 }}>
+                {tokenBalance.toLocaleString()}
+              </div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", marginTop: 4, fontFamily: FB }}>staked on shard</div>
             </div>
-            <div style={{ marginTop: 12, fontSize: 16, color: "#fff", fontFamily: FB }}>your signal helps others find this canvas</div>
-            {signalConfirm && <div style={{ marginTop: 10, padding: "8px 10px", borderRadius: 4, background: "rgba(243,214,48,0.08)", border: `1px solid ${BRAND.yellow}33`, fontSize: 16, color: BRAND.yellow, fontFamily: FB, lineHeight: 1.4 }}>noted. we wrote that down.</div>}
-            {signal && !signalConfirm && <div style={{ marginTop: 10, fontSize: 16, color: BRAND.textDim, fontFamily: FB, display: "flex", alignItems: "center", gap: 6 }}>{myName}'s signal: <div style={{ width: 14, height: 14, borderRadius: "50%", background: signal, border: "1px solid rgba(255,255,255,0.2)" }} /></div>}
-            <div style={{ marginTop: 12, fontSize: 16, color: "#fff", fontFamily: FB, fontStyle: "italic" }}>powered by F1R3INK</div>
+
+            {/* Send */}
+            <div style={{ padding: 14, borderRadius: 6, border: `1px solid ${BRAND.border}`, background: "rgba(0,0,0,0.4)" }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: BRAND.textMuted, fontFamily: FH, marginBottom: 10, fontWeight: 600 }}>SEND F1R3CAP</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <select value={sendTarget} onChange={e => setSendTarget(e.target.value)}
+                  style={{ background: "#111", border: `1px solid ${BRAND.border}`, borderRadius: 6, color: "#fff", padding: "8px 10px", fontSize: 14, fontFamily: FB, outline: "none", appearance: "none", cursor: "pointer" }}>
+                  <option value="">select player...</option>
+                  {allPlayers.filter(p => p.id !== myId).map(p => (
+                    <option key={p.id} value={p.id}>{p.name}</option>
+                  ))}
+                </select>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <input type="number" value={sendAmount} onChange={e => setSendAmount(e.target.value)} placeholder="amount"
+                    style={{ flex: 1, background: "#111", border: `1px solid ${BRAND.border}`, borderRadius: 6, padding: "8px 10px", color: BRAND.yellow, fontSize: 14, fontFamily: FB, outline: "none", width: 80 }} />
+                  <button onClick={sendTokens} style={{
+                    background: sendTarget && sendAmount ? "linear-gradient(135deg, #5c0269, #7b0429)" : "rgba(255,255,255,0.05)",
+                    border: "none", borderRadius: 6, padding: "8px 16px", color: "#fff", fontWeight: 600, fontSize: 13,
+                    cursor: sendTarget && sendAmount ? "pointer" : "default", fontFamily: FH, letterSpacing: 2,
+                    opacity: sendTarget && sendAmount ? 1 : 0.4, transition: "opacity 0.15s"
+                  }}>SEND</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Transaction Log */}
+            <div style={{ padding: 12, borderRadius: 6, border: `1px solid ${BRAND.border}`, background: "rgba(0,0,0,0.4)", maxHeight: 200, overflowY: "auto" }}>
+              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: BRAND.textMuted, fontFamily: FH, marginBottom: 8, fontWeight: 600 }}>TRANSACTIONS</div>
+              {[...tokenLog].reverse().slice(0, 15).map(tx => {
+                const isSent = tx.from === myId;
+                return (
+                  <div key={tx.id} style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 0", borderBottom: "1px solid rgba(255,255,255,0.05)", fontSize: 13, fontFamily: FB }}>
+                    <span style={{ color: isSent ? "#7b0429" : BRAND.sage, fontSize: 14 }}>{isSent ? "\u2191" : "\u2193"}</span>
+                    <span style={{ color: "rgba(255,255,255,0.5)", flex: 1 }}>
+                      {tx.fromName} <span style={{ color: "rgba(255,255,255,0.2)" }}>{"\u2192"}</span> {tx.toName}
+                    </span>
+                    <span style={{ color: isSent ? "#7b0429" : BRAND.sage, fontWeight: 600, fontFamily: FH }}>{isSent ? "-" : "+"}{tx.amount}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -552,6 +619,27 @@ function F1R3Pix() {
 
         {/* Right Sidebar */}
         <div className="game-sidebar" style={{ width: 300, borderLeft: `1px solid ${BRAND.border}`, padding: "20px 16px", display: "flex", flexDirection: "column", gap: 20, overflowY: "auto", background: "#000" }}>
+
+          {/* F1R3 SIGNALS */}
+          <div style={{ padding: 14, borderRadius: 6, border: `1px solid ${BRAND.sky}33`, background: "rgba(63,169,245,0.04)" }}>
+            <div style={{ fontSize: 16, color: BRAND.sky, letterSpacing: 3, fontFamily: FH, marginBottom: 4, fontWeight: 600 }}>F1R3 SIGNALS</div>
+            <div style={{ fontSize: 13, color: "#fff", fontFamily: FB, marginBottom: 10, fontWeight: 300, letterSpacing: 1 }}>not a like button — a feeling</div>
+            <div style={{ fontSize: 13, color: "#fff", fontFamily: FB, marginBottom: 10, lineHeight: 1.4 }}>How does this F1R3PIX make you feel?</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px 6px", justifyItems: "center" }}>
+              {[BRAND.yellow, BRAND.sage, BRAND.sky, "#7b0429", "#5c0269", "#009188", "#0c8e23", "#1114ad", "#FFFFFF", "#3f3f3f"].map(c => (
+                <div key={`sig-r-${c}`} style={{ width: 24, height: 24, borderRadius: "50%", background: c, cursor: "pointer",
+                  border: signal === c ? "2px solid #fff" : "1px solid rgba(255,255,255,0.1)",
+                  transition: "transform 0.15s, box-shadow 0.15s", transform: signal === c ? "scale(1.3)" : "scale(1)" }}
+                onClick={() => { setSignal(c); setSignalConfirm(true); setTimeout(() => setSignalConfirm(false), 2500); }}
+                onMouseEnter={e => { if (signal !== c) { e.target.style.transform = "scale(1.3)"; e.target.style.boxShadow = `0 0 10px ${c}66`; }}}
+                onMouseLeave={e => { if (signal !== c) { e.target.style.transform = "scale(1)"; e.target.style.boxShadow = "none"; }}} />
+              ))}
+            </div>
+            {signalConfirm && <div style={{ marginTop: 8, padding: "6px 8px", borderRadius: 4, background: "rgba(243,214,48,0.08)", border: `1px solid ${BRAND.yellow}33`, fontSize: 13, color: BRAND.yellow, fontFamily: FB }}>noted. we wrote that down.</div>}
+            {signal && !signalConfirm && <div style={{ marginTop: 8, fontSize: 13, color: BRAND.textDim, fontFamily: FB, display: "flex", alignItems: "center", gap: 6 }}>{myName}'s signal: <div style={{ width: 12, height: 12, borderRadius: "50%", background: signal, border: "1px solid rgba(255,255,255,0.2)" }} /></div>}
+            <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.3)", fontFamily: FB, fontStyle: "italic" }}>powered by F1R3INK</div>
+          </div>
+
           <div style={{ fontSize: 16, color: BRAND.textMuted, letterSpacing: 2, fontFamily: FH }}>PALETTE</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "12px 6px" }}>
             {PALETTE.map(c => (
