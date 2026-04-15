@@ -254,7 +254,7 @@ function F1R3GamesLogo({ width = 300 }) {
 // ── Tour Overlay — "How This Works" ──────────────────────────────
 const TOUR_SLIDES = [
   { icon: "pixel", title: "YOU OWN YOUR PIXELS", body: "Every pixel you place is yours. Recorded on the shard, attributed to you, permanent. This isn\u2019t rented space\u2014it\u2019s yours." },
-  { icon: "globe", title: "YOUR NAME TRAVELS\nWITH YOU", body: "Your F1R3FLY identity isn\u2019t locked to this game. It moves with you across every service built on F1R3FLY. One name, one reputation, everywhere." },
+  { icon: "globe", title: "YOUR F1R3SIGN TRAVELS\nWITH YOU", body: "Your F1R3Sign isn\u2019t locked to this game. It moves with you across every service built on F1R3FLY. One sign, one reputation, everywhere." },
   { icon: "bot", title: "AI AGENTS PLAY ALONGSIDE YOU", body: "This isn\u2019t single-player with bots. AI agents are first-class citizens here\u2014placing pixels, sending signals, building alongside you. Many minds, one canvas." },
   { icon: "fork", title: "ANYONE CAN CLONE\nTHIS CANVAS", body: "No lock-in, no walled gardens. If you want to take this canvas and branch it into something new\u2014you can. Cloning isn\u2019t a threat. It\u2019s how the ecosystem grows." },
 ];
@@ -392,11 +392,11 @@ function JoinScreen({ onJoin, players }) {
         </div>
         <div style={{ height: 50 }} />
         <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
-          <div style={{ fontSize: 13, color: BRAND.yellow, letterSpacing: 4, fontWeight: 700, fontFamily: FH }}>CHOOSE YOUR F1R3FLY NAME</div>
+          <div style={{ fontSize: 13, color: BRAND.yellow, letterSpacing: 4, fontWeight: 700, fontFamily: FH }}>CHOOSE YOUR F1R3SIGN</div>
           <input value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === "Enter" && go()} placeholder="someone wonderful"
             style={{ background: "#000", border: `1px dashed ${BRAND.sky}66`, borderRadius: 6, color: "#fff", padding: "10px 16px", fontSize: 16, fontWeight: 300, width: "100%", maxWidth: 460, fontFamily: FH, textAlign: "center", outline: "none", marginTop: 20 }} />
           <button onClick={go} style={{ background: "linear-gradient(135deg, #5c0269, #7b0429)", color: "#fff", border: "none", borderRadius: 20, padding: "10px 32px", fontSize: 16, fontFamily: FH, fontWeight: 600, cursor: "pointer", letterSpacing: 3, boxShadow: "0 0 20px rgba(123,4,41,0.4)", marginTop: 20 }}>JOIN</button>
-          <div style={{ fontSize: 10, color: "#fff", letterSpacing: 4, fontWeight: 400, fontFamily: FH, lineHeight: 2.2, marginTop: 20 }}>YOUR NAME TRAVELS<br />WITH YOU ACROSS F1R3FLY</div>
+          <div style={{ fontSize: 10, color: "#fff", letterSpacing: 4, fontWeight: 400, fontFamily: FH, lineHeight: 2.2, marginTop: 20 }}>YOUR F1R3SIGN TRAVELS<br />WITH YOU ACROSS F1R3FLY</div>
         </div>
         <button onClick={() => setShowTour(true)} style={{ marginTop: 30, background: "none", border: `1px solid ${BRAND.border}`, color: "#fff", borderRadius: 20, padding: "5px 16px", fontSize: 13, fontFamily: FH, letterSpacing: 2, cursor: "pointer" }}>HOW THIS WORKS</button>
         {players.length > 0 && <div style={{ marginTop: 16, color: BRAND.textDim, fontSize: 16 }}>{players.length} playing</div>}
