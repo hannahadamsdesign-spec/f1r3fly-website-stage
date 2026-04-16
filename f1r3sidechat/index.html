@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>F1R3SIDECHAT — Draft Review v1 (Hannah Adams, April 2026)</title>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; min-height: 100vh; background: #000; color: #fff; overflow-x: hidden; }
+  @media (max-width: 768px) {
+    .game-header { flex-wrap: wrap !important; padding: 10px 12px !important; }
+    .story-layout { flex-direction: column !important; }
+    .story-sidebar { width: 100% !important; border-left: none !important; border-top: 1px solid rgba(255,255,255,0.2) !important; max-height: none !important; }
+    .game-sidebar-left { display: none !important; }
+    .story-main { padding: 20px 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef, useReducer } = React;
+
+const BRAND = {
+  yellow: "#F3D630", sage: "#8BB999", sky: "#3FA9F5",
+  border: "rgba(255,255,255,0.2)",
+  stroke: "linear-gradient(90deg, #F3D630, #8BB999)"
+};
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap');`;
+const FH = "'Josefin Sans', sans-serif";
+const FB = "'Source Sans 3', sans-serif";
+const CHAT_ACCENT = "#BF5AF2";
+
+const STORY = {
+  title: "The Cartographer of Lost Rivers",
+  genre: "Mystery / Fantasy",
+  author: { id: "p2", name: "Aria", color: BRAND.sky },
+  synopsis: "A blind cartographer hears rivers flowing beneath the streets. When buildings start collapsing into hidden waterways, she must map the invisible before the city drowns.",
+  readers: 234,
+  chapters: [
+    { id: "ch1", num: 1, title: "The Sound Beneath Concrete", authorId: "p2", status: "published",
+      text: "The first time Maren heard the river, she thought it was rain.\n\nShe was standing at the corner of Ash Street and Viaduct, her white cane tapping the familiar rhythm against the curb. The city hummed its usual frequencies \u2014 diesel idling, a busker\u2019s violin two blocks east, the staccato of heels on the pedestrian bridge above. But underneath all of it, threading through the concrete like a whispered secret, was the sound of moving water.\n\nNot storm drains. Not burst pipes. This was older. Deeper. A current that remembered being a river.\n\n\u201CYou hear that?\u201D she asked the dog. Sable\u2019s ears perked, but the guide dog gave no indication of alarm. Water was water. But Maren\u2019s hands were trembling on the harness.\n\nShe had been blind since she was nine \u2014 long enough to have rebuilt her entire map of the world in sound and texture. She knew this intersection by its acoustic signature the way sighted people knew it by its traffic light. And this sound did not belong here.\n\nShe knelt, pressing her palm flat against the sidewalk. The vibration was unmistakable. Something was flowing, six feet below her fingers, in a direction that no municipal map acknowledged.",
+      wordCount: 198, applause: 47 },
+    { id: "ch2", num: 2, title: "The Archive of Buried Channels", authorId: "p2", status: "published",
+      text: "The Historical Society occupied the top floor of a building that should have been condemned. Maren climbed the stairs by counting \u2014 forty-two steps, a landing that smelled of mildewed carpet, then twenty more steps to a door that stuck in its frame.\n\n\u201CI need your oldest maps,\u201D she told the archivist, a man whose voice suggested tweed and resignation. \u201CThe ones from before the city paved the rivers.\u201D\n\nA silence. Then the scrape of a chair.\n\n\u201CNo one has asked for those in years,\u201D he said. \u201CThey\u2019re in the basement. Which is ironic, given what\u2019s down there.\u201D\n\nHe meant it as a joke. But when they descended and Maren pressed her hand to the basement wall, she felt it \u2014 the thrum of a current so close it seemed to push against the foundation stones. The archivist didn\u2019t notice. People who could see rarely listened to buildings.",
+      wordCount: 156, applause: 32 },
+    { id: "ch3", num: 3, title: "Cracks in the Foundation", authorId: null, status: "open", text: "", wordCount: 0, applause: 0 }
+  ]
+};
+
+const CHARACTERS = [
+  { id: "maren", name: "Maren", role: "Blind cartographer", driver: "p2", color: BRAND.yellow },
+  { id: "sable", name: "Sable", role: "Guide dog", driver: null, color: "#8B7355" },
+  { id: "archivist", name: "The Archivist", role: "Keeper of forgotten maps", driver: "p5", color: BRAND.sage },
+  { id: "river", name: "The River", role: "The buried consciousness", driver: null, color: BRAND.sky },
+  { id: "mayor", name: "Mayor Calloway", role: "Wants rivers hidden", driver: null, color: "#CC4444" }
+];
+
+const PORTRAITS = { hannah:"images/hannah-adams.jpg", greg:"images/greg-meredith.jpg", mike:"images/mike-stay.jpg", lilia:"images/lilia-rusu.jpg", jeff:"images/jeff-turner.jpg", stephen:"images/stephen-alexander.jpg" };
+const DEMO_PLAYERS = [
+  { id:"p2", name:"Aria", portrait:PORTRAITS.greg, role:"creator" },
+  { id:"p3", name:"Kael", portrait:PORTRAITS.mike, role:"reader" },
+  { id:"p4", name:"Nova", portrait:PORTRAITS.lilia, role:"reader" },
+  { id:"p5", name:"Zeph", portrait:PORTRAITS.jeff, role:"creator" },
+  { id:"p6", name:"Onyx", portrait:PORTRAITS.stephen, role:"reader" }
+];
+const COMMENTS = [
+  { id:1, userId:"p3", name:"Kael", chapterId:"ch1", text:"The acoustic mapping premise is brilliant. Her blindness isn\u2019t a limitation \u2014 it\u2019s her superpower.", applause:12 },
+  { id:2, userId:"p6", name:"Onyx", chapterId:"ch1", text:"Knowing an intersection by its acoustic signature... world-building that makes you stop and re-read.", applause:8 },
+  { id:3, userId:"p4", name:"Nova", chapterId:"ch2", text:"People who could see rarely listened to buildings. This line is the whole thesis of the story.", applause:23 }
+];
+const COSTS = { DRIVE:100, AI_COAUTHOR:500, TALK_AUTHOR:250, TIP_MIN:10 };
+
+function Avatar({src, size=32}) { return <img src={src} alt="" style={{width:size,height:size,borderRadius:"50%",objectFit:"cover",border:"2px solid rgba(255,255,255,0.15)",flexShrink:0}} />; }
+function HumanIcon({size=14, color="#fff"}) { return (<svg width={size} height={size} viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke={color} strokeWidth="1.5" fill="none"/><path d="M2.5 15c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>); }
+
+function HowBtn({onClick}) { return <button onClick={onClick} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"12px 24px",fontSize:16,cursor:"pointer",fontFamily:FH,letterSpacing:2,fontWeight:400,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>HOW THIS WORKS</button>; }
+
+function TourOverlay({onClose}) {
+  const slides = [
+    { title:"STORIES ARE\nBETTER TOGETHER", body:"A serial narrative unfolds in real time. You arrive as a reader. If the story moves you, you can step into it \u2014 comment, tip, drive a character, or propose where the plot goes next." },
+    { title:"FOUR WAYS IN\nONE SPECTRUM", body:"Reader (free) \u2192 Kibitzer (comment for free) \u2192 Character Driver (pay to take the wheel of a character) \u2192 Meta-Author (pay to propose plot changes). Deeper participation costs more tokens." },
+    { title:"AI IS A\nCHARACTER TOO", body:"The AI co-author isn\u2019t hidden. It\u2019s a named participant in the story, visible and addressable. Human and AI write together, publicly. The process is part of the art." },
+    { title:"BUILT ON\nF1R3FLY", body:"Every chapter, every comment, every character turn is a signed transaction on a F1R3FLY shard. The story\u2019s provenance is permanent, auditable, and community-owned." }
+  ];
+  const [si, setSi] = useState(0); const s = slides[si];
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.92)",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:FH}} onClick={onClose}>
+      <style>{`@keyframes tourIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}`}</style>
+      <div onClick={e=>e.stopPropagation()} style={{maxWidth:480,width:"90%",padding:"48px 40px",border:`1px dashed ${BRAND.sky}44`,borderRadius:14,background:"#000",animation:"tourIn 0.3s ease-out",textAlign:"center"}}>
+        <h2 style={{fontSize:22,fontWeight:700,letterSpacing:4,color:"#fff",lineHeight:1.5,whiteSpace:"pre-line",margin:"0 0 20px"}}>{s.title}</h2>
+        <p style={{fontSize:14,color:"#fff",lineHeight:1.8,fontFamily:FB,margin:0}}>{s.body}</p>
+        <div style={{display:"flex",justifyContent:"center",gap:8,marginTop:32}}>{slides.map((_,i)=><div key={i} onClick={()=>setSi(i)} style={{width:8,height:8,borderRadius:"50%",background:i===si?CHAT_ACCENT:"#333",cursor:"pointer"}} />)}</div>
+        <div style={{marginTop:24}}>
+          {si<slides.length-1 ? <button onClick={()=>setSi(si+1)} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"12px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:2,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>NEXT</button>
+          : <button onClick={onClose} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"12px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:2,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>START READING</button>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BuiltOnBadge() {
+  return (<div style={{position:"fixed",bottom:16,left:"50%",transform:"translateX(-50%)",zIndex:100,display:"flex",alignItems:"center",gap:10,background:"#000",border:`1px solid ${BRAND.border}`,borderRadius:8,padding:"8px 16px",fontFamily:FH,fontSize:16,letterSpacing:2,color:"#fff",cursor:"pointer",backdropFilter:"blur(8px)"}} onClick={()=>window.open&&window.open("https://f1r3fly.io","_blank")}>
+    <span style={{color:"#fff",fontSize:16,letterSpacing:2}}>BUILT ON</span>
+    <svg width="120" viewBox="0 0 2343 535" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="b-lg" x1="620.975" y1="117.901" x2="793.518" y2="-180.951" gradientTransform="translate(-545.342 290.672) rotate(-4.856)" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#009188"/><stop offset="1" stopColor="#007bc4"/></linearGradient><linearGradient id="b-lg1" x1="10868.88" y1="2958.368" x2="11042.919" y2="2656.923" gradientTransform="translate(11539.772 2556.8) rotate(-153.904) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#009188"/><stop offset="1" stopColor="#007bc4"/></linearGradient><linearGradient id="b-lg2" x1="1278.548" y1="-693.973" x2="1379.282" y2="-693.973" gradientTransform="translate(-816.84 975.667) rotate(-11.485)" xlinkHref="#b-lg"/><radialGradient id="b-rg" cx="-507.17" cy="1315.506" fx="-507.17" fy="1166.669" r="148.898" gradientTransform="translate(-462.725 1690.402) rotate(-169.698) scale(1.001 1.048) skewX(.542)" gradientUnits="userSpaceOnUse"><stop offset=".159" stopColor="#ebe1a3"/><stop offset=".658" stopColor="#f3d630"/><stop offset=".995" stopColor="#f3d630"/></radialGradient></defs><g><path fill="url(#b-lg)" d="M316.697,105.798c-37.703,124.422-167.35,232.91-298.749,218.058-19.188-3.649-20.283-20.828-15.672-37.06C31.864,162.855,152.312,70.533,276.989,74.429c21.882.057,44.988,2.747,39.708,31.368Z"/><path fill="url(#b-lg1)" d="M349.717,112.154c-8.765,129.993,73.792,279.334,201.506,314.364,19.172,3.736,26.255-11.869,27.685-28.713,16.157-126.526-63.53-257.377-181.112-300.119-20.416-8.086-42.901-14.173-48.079,14.468Z"/><path fill="url(#b-lg2)" d="M400.519,44.343c1.708-41.624-83.95-62.735-103.871-23.736-3.572,6.996-.071,15.53,6.922,17.387,25.852,6.863,56.168,11.194,82.282,18.292,7.128,1.934,14.336-3.926,14.667-11.944Z"/><path fill="url(#b-rg)" d="M378.911,353.267c-46.405,267.616-227.024,226.916-174.919-34.206,44.206-27.89,81.981-64.979,110.028-108.046,11.008,50.816,33.273,99.674,64.892,142.252Z"/></g><g><path fill="#fff" d="M755.273,169.256c0-2.975,2.379-5.652,5.652-5.652h121.068c3.271,0,5.652,2.677,5.652,5.652v24.391c0,2.975-2.381,5.652-5.652,5.652h-88.049v55.924h73.473c2.975,0,5.652,2.677,5.652,5.652v24.392c0,2.974-2.677,5.652-5.652,5.652h-73.473v75.258c0,2.975-2.678,5.652-5.652,5.652h-27.367c-3.272,0-5.652-2.677-5.652-5.652v-196.92Z"/><path fill="#fff" d="M952.779,223.691l-26.177,5.652c-2.677.595-5.652-1.189-5.949-3.867l-1.785-14.576c-.297-2.379.297-4.164,1.488-5.353l42.834-35.993h20.822c2.975,0,5.355,2.677,5.355,5.652v190.971c0,2.975-2.379,5.652-5.355,5.652h-25.581c-3.272,0-5.652-2.677-5.652-5.652v-142.485Z"/><path fill="#fff" d="M1058.965,169.256c0-2.975,2.379-5.652,5.652-5.652h85.075c35.696,0,64.847,28.556,64.847,63.954,0,27.367-18.146,49.676-44.024,60.088l40.752,75.555c2.082,3.868,0,8.627-5.056,8.627h-31.234c-2.677,0-4.164-1.488-4.759-2.677l-39.563-78.828h-33.018v75.853c0,2.975-2.678,5.652-5.652,5.652h-27.367c-3.272,0-5.652-2.677-5.652-5.652v-196.92ZM1146.419,258.494c15.765,0,29.449-13.683,29.449-30.34,0-15.766-13.684-28.855-29.449-28.855h-48.486v59.195h48.486Z"/><path fill="#fff" d="M1255.873,340.892l15.171-14.576c2.677-2.379,5.355-2.379,7.734,0,.892,1.19,18.443,16.064,36.588,16.064,16.063,0,31.532-11.602,31.532-27.962,0-15.468-14.279-29.449-41.05-29.449h-16.658c-3.271,0-5.652-2.379-5.652-5.949v-18.74c0-3.867,2.082-5.949,5.652-5.949h16.658c24.392,0,36.885-12.196,36.885-27.366,0-16.361-13.683-27.366-28.854-27.366-15.468,0-24.987,8.329-30.044,14.278-2.082,2.379-5.353,2.677-8.031.297l-14.575-13.683c-2.381-2.082-2.082-5.652,0-7.734,0,0,22.606-26.177,55.923-26.177,34.506,0,63.359,21.12,63.359,54.436,0,22.905-17.253,40.157-30.639,46.404v.893c13.98,5.949,35.993,22.012,35.993,48.486,0,33.614-27.366,58.006-68.417,58.006-37.182,0-55.328-18.74-61.872-26.474-1.785-2.082-1.488-5.355.297-7.437Z"/><path fill="#fff" d="M1442.072,169.256c0-2.975,2.379-5.652,5.652-5.652h121.068c3.272,0,5.651,2.677,5.651,5.652v24.391c0,2.975-2.378,5.652-5.651,5.652h-88.049v55.924h73.473c2.975,0,5.653,2.677,5.653,5.652v24.392c0,2.974-2.678,5.652-5.653,5.652h-73.473v75.258c0,2.975-2.678,5.652-5.652,5.652h-27.367c-3.272,0-5.652-2.677-5.652-5.652v-196.92Z"/><path fill="#fff" d="M1624.705,169.256c0-2.975,2.381-5.652,5.653-5.652h27.366c2.975,0,5.651,2.677,5.651,5.652v166.876h75.853c3.272,0,5.653,2.678,5.653,5.652v24.392c0,2.975-2.381,5.652-5.653,5.652h-108.87c-3.272,0-5.653-2.677-5.653-5.652v-196.92Z"/><path fill="#fff" d="M1815.074,271.582l-67.822-99.352c-2.381-3.867,0-8.626,4.759-8.626h30.341c2.381,0,3.867,1.486,4.759,2.677l47.595,68.417,47.593-68.417c.892-1.19,2.381-2.677,4.759-2.677h30.641c4.759,0,7.137,4.759,4.759,8.626l-68.714,99.055v94.891c0,2.975-2.678,5.652-5.653,5.652h-27.366c-3.272,0-5.651-2.677-5.651-5.652v-94.594Z"/><path fill="#fff" d="M1961.416,325.721c13.387,0,24.691,11.304,24.691,24.689s-11.304,24.392-24.691,24.392-24.391-11.006-24.391-24.392,11.006-24.689,24.391-24.689Z"/><path fill="#fff" d="M2036.073,169.256c0-2.678,2.678-5.652,5.653-5.652h27.663c2.975,0,5.651,2.677,5.651,5.652v196.92c0,2.975-2.676,5.652-5.651,5.652h-27.663c-2.975,0-5.653-2.677-5.653-5.652v-196.92Z"/><path fill="#fff" d="M2235.958,160.629c59.493,0,107.086,47.891,107.086,107.384s-47.593,106.79-107.086,106.79-106.789-47.297-106.789-106.79,47.298-107.384,106.789-107.384ZM2235.958,336.132c37.481,0,68.417-30.639,68.417-68.119s-30.936-68.714-68.417-68.714-68.119,31.234-68.119,68.714,30.639,68.119,68.119,68.119Z"/></g></svg>
+  </div>);
+}
+
+function F1R3GamesLogo({width=300}) {
+  return <svg width={width} viewBox="0 0 2042 1170" xmlns="http://www.w3.org/2000/svg" style={{display:"block",margin:"0 auto"}}><defs><linearGradient id="fg-g1" x1="930" y1="748" x2="930" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#9ec597"/><stop offset=".519" stopColor="#5fb7e7"/><stop offset="1" stopColor="#1c6d8d"/></linearGradient><linearGradient id="fg-g2" x1="771.5" y1="405.6" x2="1465.1" y2="405.6" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#f4d633"/><stop offset="1" stopColor="#a82933"/></linearGradient></defs><path fill="#fff" d="M0,924.4c0-3.5,2.8-6.7,6.7-6.7h144.3c3.9,0,6.7,3.2,6.7,6.7v29.1c0,3.5-2.8,6.7-6.7,6.7H46.1v66.7h87.6c3.5,0,6.7,3.2,6.7,6.7v29.1c0,3.5-3.2,6.7-6.7,6.7H46.1v89.7c0,3.5-3.2,6.7-6.7,6.7H6.7c-3.9,0-6.7-3.2-6.7-6.7V924.4ZM235.4,989.3l-31.2,6.7c-3.2.7-6.7-1.4-7.1-4.6l-2.1-17.4c-.4-2.8.4-5,1.8-6.4l51.1-42.9h24.8c3.5,0,6.4,3.2,6.4,6.7v227.6c0,3.5-2.8,6.7-6.4,6.7h-30.5c-3.9,0-6.7-3.2-6.7-6.7V989.3ZM362,924.4c0-3.5,2.8-6.7,6.7-6.7h101.4c42.5,0,77.3,34,77.3,76.2,0,32.6-21.6,59.2-52.5,71.6l48.6,90.1c2.5,4.6,0,10.3-6,10.3h-37.2c-3.2,0-5-1.8-5.7-3.2l-47.2-94h-39.4v90.4c0,3.5-3.2,6.7-6.7,6.7h-32.6c-3.9,0-6.7-3.2-6.7-6.7V924.4ZM466.2,1030.8c18.8,0,35.1-16.3,35.1-36.2,0-18.8-16.3-34.4-35.1-34.4h-57.8v70.6h57.8ZM596.7,1129l18.1-17.4c3.2-2.8,6.4-2.8,9.2,0,1.1,1.4,22,19.1,43.6,19.1,19.1,0,37.6-13.8,37.6-33.3,0-18.4-17-35.1-48.9-35.1h-19.9c-3.9,0-6.7-2.8-6.7-7.1v-22.3c0-4.6,2.5-7.1,6.7-7.1h19.9c29.1,0,44-14.5,44-32.6,0-19.5-16.3-32.6-34.4-32.6-18.4,0-29.8,9.9-35.8,17-2.5,2.8-6.4,3.2-9.6.4l-17.4-16.3c-2.8-2.5-2.5-6.7,0-9.2,0,0,27-31.2,66.7-31.2,41.1,0,75.5,25.2,75.5,64.9,0,27.3-20.6,47.9-36.5,55.3v1.1c16.7,7.1,42.9,26.2,42.9,57.8,0,40.1-32.6,69.1-81.6,69.1-44.3,0-65.9-22.3-73.7-31.6-2.1-2.5-1.8-6.4.4-8.9Z"/><path fill="#fff" d="M928.2,914.2c31.9,0,62.4,12.4,86.5,33,2.8,2.8,3.2,7.1.4,9.9l-22,23c-2.8,2.8-6,2.8-9.2,0-15.2-13.5-34-20.6-53.5-20.6-44.3,0-79.4,37.9-79.4,82.3,0,44,35.1,81.2,79.8,81.2,19.9,0,35.1-6,42.2-8.9v-30.1h-28.4c-3.9,0-6.7-2.8-6.7-6.4v-28c0-3.9,2.8-6.7,6.7-6.7h68.1c3.5,0,6.4,3.2,6.4,6.7v90.8c0,2.8-1.4,4.6-2.8,5.7,0,0-36.5,23-87.9,23-70.6,0-127.3-56-127.3-126.9s56.7-128,127.3-128Z"/><path fill="#fff" d="M1056.6,1156.7l110.3-238.6c1.1-2.1,2.8-3.9,6-3.9h3.5c3.5,0,5,1.8,6,3.9l109.2,238.6c2.1,4.6-.7,9.2-6,9.2h-30.8c-5.3,0-7.8-2.1-10.3-7.1l-17.4-38.3h-106l-17.4,38.3c-1.4,3.5-4.6,7.1-10.3,7.1h-30.8c-5.3,0-8.2-4.6-6-9.2ZM1209.8,1081.2l-35.5-78h-1.1l-34.7,78h71.3Z"/><path fill="#fff" d="M1367.5,919.5c.4-2.8,2.5-5.3,6.4-5.3h5.7c2.8,0,5,1.4,6,3.5l78,167.4h1.1l78-167.4c1.1-2.1,2.8-3.5,6-3.5h5.7c3.9,0,6,2.5,6.4,5.3l41.8,238.3c1.1,5-1.8,8.2-6.4,8.2h-32.3c-3.2,0-6-2.8-6.7-5.3l-20.9-134.4h-1.1l-62,139.3c-.7,2.1-2.8,3.9-6,3.9h-6.4c-3.2,0-5-1.8-6-3.9l-62.8-139.3h-1.1l-20.6,134.4c-.4,2.5-3.2,5.3-6.4,5.3h-31.9c-4.6,0-7.4-3.2-6.7-8.2l42.2-238.3Z"/><path fill="#fff" d="M1668.9,924.4c0-3.5,2.8-6.7,6.7-6.7h144.3c3.9,0,6.7,3.2,6.7,6.7v29.1c0,3.5-2.8,6.7-6.7,6.7h-105v58.1h87.6c3.5,0,6.7,3.2,6.7,6.7v29.4c0,3.9-3.2,6.7-6.7,6.7h-87.6v62.1h105c3.9,0,6.7,3.2,6.7,6.7v29.1c0,3.5-2.8,6.7-6.7,6.7h-144.3c-3.9,0-6.7-3.2-6.7-6.7V924.4Z"/><path fill="#fff" d="M1880.6,1131.2l12.8-22c2.8-5,8.9-5,12.1-2.5,1.8,1.1,30.5,22,53.5,22,18.4,0,32.3-12.1,32.3-27.3,0-18.1-15.2-30.5-45-42.5-33.3-13.5-66.7-34.7-66.7-76.6,0-31.6,23.4-68.1,79.8-68.1,36.2,0,63.8,18.4,70.9,23.8,3.5,2.1,4.6,8.2,2.1,11.7l-13.5,20.2c-2.8,4.3-8.2,7.1-12.4,4.3-2.8-1.8-29.8-19.5-49.3-19.5-20.2,0-31.2,13.5-31.2,24.8,0,16.7,13.1,28,41.8,39.7,34.4,13.8,74.1,34.4,74.1,80.1,0,36.5-31.6,70.2-81.6,70.2-44.7,0-70.9-20.9-78-27.7-3.2-3.2-5-5-1.8-10.6Z"/><path fill="url(#fg-g1)" d="M1142,0c46.3,37.9,87.2,88.1,111.2,144.5,43.2,100.5,38,218-4.5,317.9-38.9,93-108.7,173.1-196.6,223.9-60,35.1-128.1,58-198.3,61.1-87.4,4.4-180.3-25.7-234.7-98-30.1-39.8-44.7-89.2-41.9-138.6,6.1-108.8,82.2-204.1,172.7-258.3,23.4-14.1,46.9-25.6,71.5-35.8,9.4-4,31.6-12.2,41.5-16,15.3-5.8,37.7-14.4,52.6-20.5,32.2-13.4,62-32.8,85.9-58.5,24.6-26.1,43.7-59.4,55.3-97.3,1.3,9.9,1.8,19.9,1.5,30-1.9,79-48,149.4-112.1,193.9-20.1,14.5-41.3,28.5-62.1,42-9.6,6.1-19.6,12.7-28.9,19.2-49.8,35-89.9,73.8-116.5,126.5-14.2,29.1-24.4,62.3-17.5,93.6,4.4,19.1,17.1,34.5,33.4,44.9,19.9,12.9,47.1,20,71.5,21,162.4,4.7,311.5-124.8,357-278.8,10.1-33.2,15.3-68,16-102.6,2.5-74.2-23.9-147.5-57-214.1Z"/><path fill="url(#fg-g2)" d="M1385,397.3c57.8,42.2,91.5,118.5,76.5,189.8-4.7,22.6-13.8,44.5-26.9,63.6-30.7,47.4-82.4,80.5-136.5,94.7-86,23.1-182.5,7.8-262.7-28.3-96.8-44.8-177.3-123-225-217.6-40-83.6-48.7-180.8-28.3-270.7,7.5-32.2,19.3-63.5,35.3-92.4,13.2-23.4,29.2-45.5,48.4-64.2,6.3-6.2,13-11.9,20-17.2-2.1,14-4.3,27.2-5.5,40.4-6.3,60.8-1.2,122.1,14.8,180.9,10.7,40.1,25.1,79,46,114.7,5.4,9.4,11.6,19,18.1,27.7,7.2,8.9,14.4,17.9,22,26.5,41.2,46.4,90.9,86,146.8,112.7,9,4.1,19.3,8.4,28.5,11.8,43.9,16.2,93.7,28.1,139,21.2,18.5-2.8,35.5-9.4,51.1-20.2,5-3.1,9.5-7.1,13.7-11.3,38.8-40.7,34.8-108.9,24.7-162.1Z"/></svg>;
+}
+
+function F1R3SideChat() {
+  const [phase, setPhase] = useState("join");
+  const [myName, setMyName] = useState("");
+  const [showTour, setShowTour] = useState(false);
+  const [currentCh, setCurrentCh] = useState("ch1");
+  const [comments, setComments] = useState(COMMENTS);
+  const [newComment, setNewComment] = useState("");
+  const [myRole, setMyRole] = useState("reader");
+  const [drivingChar, setDrivingChar] = useState(null);
+
+  const chapter = STORY.chapters.find(c => c.id === currentCh) || STORY.chapters[0];
+  const chapterComments = comments.filter(c => c.chapterId === currentCh);
+  const handleJoin = () => { if (myName.trim()) setPhase("read"); };
+  const addComment = () => { if (!newComment.trim()) return; setComments(c => [...c, { id:Date.now(), userId:"me", name:myName.trim()||"You", chapterId:currentCh, text:newComment.trim(), applause:0 }]); setNewComment(""); };
+  const takeWheel = (charId) => { setMyRole("creator"); setDrivingChar(charId); };
+
+  if (phase === "join") return (
+    <div style={{minHeight:"100vh",background:"#000",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",fontFamily:FH,position:"relative",padding:"40px 20px"}}>
+      <style>{FONTS}{`@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} input:focus{border-color:${BRAND.sky}66 !important;outline:none}`}</style>
+      <div style={{animation:"fadeIn .6s ease-out",textAlign:"center",position:"relative",zIndex:1}}>
+        <F1R3GamesLogo width={196}/>
+        <div style={{fontSize:10,color:"#fff",letterSpacing:6,fontFamily:FH,fontWeight:400,marginTop:24}}>PRESENTS</div>
+        <div style={{height:40}}/>
+        <div style={{border:`1px dashed ${BRAND.sky}66`,borderRadius:14,padding:"40px 48px",display:"inline-block",background:"#000"}}>
+          <h1 style={{margin:"0 0 12px",fontSize:52,fontWeight:700,letterSpacing:6,color:"#fff",fontFamily:FH}}>F1R3<span style={{color:CHAT_ACCENT}}>SIDECHAT</span></h1>
+          <div style={{fontSize:10,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH}}>COLLABORATIVE FICTION, WRITTEN LIVE</div>
+        </div>
+        <div style={{height:50}}/>
+        <div style={{display:"flex",flexDirection:"column",gap:10,alignItems:"center"}}>
+          <div style={{fontSize:13,color:BRAND.yellow,letterSpacing:4,fontWeight:700,fontFamily:FH}}>CHOOSE YOUR F1R3SIGN</div>
+          <input value={myName} onChange={e=>setMyName(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleJoin()} placeholder="someone with a story" style={{background:"#000",border:`1px dashed ${BRAND.sky}66`,borderRadius:6,color:"#fff",padding:"10px 16px",fontSize:16,fontWeight:300,width:"100%",maxWidth:460,fontFamily:FH,textAlign:"center",outline:"none",marginTop:20}}/>
+          <button onClick={handleJoin} style={{background:`linear-gradient(135deg, ${CHAT_ACCENT}, #7b0429)`,color:"#fff",border:"none",borderRadius:20,padding:"12px 32px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,boxShadow:`0 0 20px ${CHAT_ACCENT}44`,marginTop:20,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>JOIN</button>
+          <div style={{fontSize:10,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH,lineHeight:2.2,marginTop:20}}>YOUR F1R3SIGN TRAVELS<br/>WITH YOU ACROSS F1R3FLY</div>
+          <div style={{marginTop:12}}><HowBtn onClick={()=>setShowTour(true)}/></div>
+        </div>
+        <div style={{marginTop:16,color:"#fff",fontSize:16}}>{STORY.readers} readers</div>
+      </div>
+      <BuiltOnBadge/>
+      {showTour && <TourOverlay onClose={()=>setShowTour(false)}/>}
+    </div>
+  );
+
+  const displayName = myName.trim() || "You";
+  const canWrite = myRole === "creator" && chapter.status === "open";
+
+  return (
+    <div style={{minHeight:"100vh",background:"#000",color:"#fff",fontFamily:FH,display:"flex",flexDirection:"column",position:"relative",paddingBottom:80}}>
+      <style>{FONTS}{`::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}*{box-sizing:border-box}`}</style>
+
+      <div className="game-header" style={{padding:"14px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",background:"#000",minHeight:70,gap:12}}>
+        <div style={{display:"flex",alignItems:"baseline",gap:12,flexWrap:"wrap"}}>
+          <span style={{fontSize:29,fontWeight:700,letterSpacing:4,fontFamily:FH,color:"#fff"}}>F1R3<span style={{color:CHAT_ACCENT}}>SIDECHAT</span></span>
+          <span style={{fontSize:16,color:"#fff",letterSpacing:2,fontFamily:FB}}>{STORY.readers} readers | {STORY.chapters.length} chapters | shard live</span>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <HowBtn onClick={()=>setShowTour(true)}/>
+          <button onClick={()=>setPhase("join")} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:4,padding:"6px 12px",fontSize:16,cursor:"pointer",fontFamily:FH,letterSpacing:1}}>LEAVE</button>
+        </div>
+      </div>
+      <div style={{width:"100%",height:"0.5px",background:BRAND.stroke,opacity:0.8}}/>
+
+      <div className="story-layout" style={{flex:1,display:"flex",overflow:"hidden"}}>
+
+        {/* LEFT SIDEBAR — Identity + Kibitz */}
+        <div className="game-sidebar-left" style={{width:260,minWidth:260,background:"#000",borderRight:`1px solid ${BRAND.border}`,display:"flex",flexDirection:"column",gap:12,padding:14,overflow:"auto"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,padding:12,border:`1px solid ${CHAT_ACCENT}33`,borderRadius:8,background:`rgba(191,90,242,0.04)`}}>
+            <Avatar src={PORTRAITS.hannah} size={40}/>
+            <div>
+              <div style={{fontSize:16,color:CHAT_ACCENT,fontWeight:700,fontFamily:FH,letterSpacing:1}}>{displayName}</div>
+              <div style={{fontSize:16,color:"#fff",fontFamily:FB,textTransform:"uppercase",letterSpacing:1}}>{myRole}{drivingChar && ` \u00b7 ${CHARACTERS.find(c=>c.id===drivingChar)?.name}`}</div>
+            </div>
+          </div>
+          <div style={{border:`1px dashed ${BRAND.sky}44`,borderRadius:8,padding:14,background:"rgba(63,169,245,0.02)",flex:1,display:"flex",flexDirection:"column"}}>
+            <div style={{fontSize:12,color:"#fff",letterSpacing:2,fontFamily:FH,fontWeight:600,marginBottom:10}}>KIBITZ \u00b7 CH {chapter.num} ({chapterComments.length})</div>
+            <div style={{flex:1,overflow:"auto",display:"flex",flexDirection:"column",gap:12}}>
+              {chapterComments.length === 0 && <div style={{color:"#ccc",fontSize:16,fontFamily:FB,fontStyle:"italic",textAlign:"center",padding:"16px 0"}}>No comments yet.</div>}
+              {chapterComments.map(c => (
+                <div key={c.id} style={{padding:"8px 0",borderBottom:"1px solid rgba(255,255,255,0.05)",animation:"fadeUp 0.3s"}}>
+                  <div style={{fontSize:16,fontWeight:600,color:"#fff",fontFamily:FH,marginBottom:4}}>{c.name}</div>
+                  <div style={{fontSize:16,color:"#fff",lineHeight:1.6,fontFamily:FB}}>{c.text}</div>
+                  <button onClick={()=>setComments(cs=>cs.map(x=>x.id===c.id?{...x,applause:x.applause+1}:x))} style={{marginTop:6,padding:"3px 10px",borderRadius:12,fontSize:16,background:"transparent",border:`1px solid ${BRAND.border}`,color:"#ccc",cursor:"pointer",fontFamily:FB}}>&#128079; {c.applause}</button>
+                </div>
+              ))}
+            </div>
+            <div style={{display:"flex",gap:6,marginTop:10,borderTop:`1px solid ${BRAND.border}`,paddingTop:10}}>
+              <input value={newComment} onChange={e=>setNewComment(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addComment()} placeholder="Comment..." style={{flex:1,background:"#0a0a0a",border:`1px solid ${BRAND.border}`,borderRadius:6,padding:"8px 10px",color:"#fff",fontSize:16,outline:"none",fontFamily:FB}}/>
+              <button onClick={addComment} disabled={!newComment.trim()} style={{background:newComment.trim()?`linear-gradient(135deg, ${CHAT_ACCENT}, #7b0429)`:"#111",border:"none",borderRadius:6,padding:"8px 14px",color:"#fff",fontWeight:700,fontSize:16,cursor:newComment.trim()?"pointer":"default",fontFamily:FH,letterSpacing:1}}>&uarr;</button>
+            </div>
+          </div>
+          <div style={{border:`1px dashed ${BRAND.sky}44`,borderRadius:8,padding:14,background:"rgba(63,169,245,0.02)"}}>
+            <div style={{fontSize:16,color:CHAT_ACCENT,letterSpacing:3,fontFamily:FH,fontWeight:600,marginBottom:8}}>{STORY.genre.toUpperCase()}</div>
+            <div style={{fontSize:16,fontWeight:600,color:"#fff",fontFamily:FH,lineHeight:1.3,marginBottom:6}}>{STORY.title}</div>
+            <div style={{fontSize:16,color:"#fff",fontFamily:FB,lineHeight:1.6,marginBottom:8}}>{STORY.synopsis}</div>
+            <div style={{display:"flex",alignItems:"center",gap:6}}>
+              <span style={{fontSize:16,color:STORY.author.color,fontFamily:FH,fontWeight:600}}>by {STORY.author.name}</span>
+              <span style={{fontSize:16,color:"#ccc",fontFamily:FB,marginLeft:"auto"}}>{STORY.readers} readers</span>
+            </div>
+          </div>
+        </div>
+
+        {/* CENTER — Story */}
+        <div className="story-main" style={{flex:1,overflow:"auto",padding:"32px 40px 60px"}}>
+          <div style={{maxWidth:680,margin:"0 auto"}}>
+            <div style={{fontSize:16,color:"#ccc",letterSpacing:3,fontFamily:FH,marginBottom:8}}>CHAPTER {chapter.num}{chapter.authorId && <span style={{color:BRAND.sky,marginLeft:8}}>by {DEMO_PLAYERS.find(p=>p.id===chapter.authorId)?.name || "unknown"}</span>}</div>
+            <h3 style={{fontSize:26,fontWeight:300,color:"#fff",fontFamily:FH,margin:"0 0 8px",letterSpacing:1}}>{chapter.title}</h3>
+            {chapter.wordCount > 0 && <div style={{fontSize:16,color:"#ccc",fontFamily:FB,marginBottom:24}}>{chapter.wordCount} words \u00b7 {chapter.applause} applause</div>}
+            {chapter.text ? (
+              <div>{chapter.text.split("\n").map((para, i) => para.trim() ? <p key={i} style={{fontSize:18,lineHeight:2,color:"#fff",fontFamily:FB,marginBottom:20,textIndent:i>0?24:0,letterSpacing:0.2}}>{para}</p> : <div key={i} style={{height:12}}/>)}</div>
+            ) : (
+              <div style={{textAlign:"center",padding:"60px 0"}}>
+                <div style={{fontSize:16,color:"#ccc",fontFamily:FB,fontStyle:"italic",marginBottom:16}}>This chapter is open for writing.</div>
+                {canWrite ? <div style={{fontSize:16,color:CHAT_ACCENT,fontFamily:FH,letterSpacing:2}}>You're driving {CHARACTERS.find(c=>c.id===drivingChar)?.name}. Write below.</div>
+                : <div style={{fontSize:16,color:"#fff",fontFamily:FB}}>Take the wheel on a character to start writing. <span style={{color:BRAND.yellow}}>({COSTS.DRIVE} tokens)</span></div>}
+                {canWrite && <div style={{maxWidth:580,margin:"24px auto 0"}}><textarea placeholder="Continue the story..." style={{width:"100%",minHeight:180,background:"#0a0a0a",border:`1px solid ${BRAND.border}`,borderRadius:8,padding:16,color:"#fff",fontSize:17,lineHeight:1.9,resize:"vertical",outline:"none",fontFamily:FB}}/><div style={{display:"flex",justifyContent:"flex-end",marginTop:12}}><button style={{background:`linear-gradient(135deg, ${CHAT_ACCENT}, #7b0429)`,color:"#fff",border:"none",borderRadius:20,padding:"12px 24px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:2,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>PUBLISH</button></div></div>}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT SIDEBAR — Story info, Chapters, Characters, Engagement */}
+        <div className="story-sidebar" style={{width:280,minWidth:280,background:"#000",borderLeft:`1px solid ${BRAND.border}`,display:"flex",flexDirection:"column",gap:12,padding:14,overflow:"auto"}}>
+          <div style={{border:`1px dashed ${BRAND.sky}44`,borderRadius:8,padding:14,background:"rgba(63,169,245,0.02)"}}>
+            <div style={{fontSize:16,color:BRAND.sage,letterSpacing:3,fontFamily:FH,fontWeight:600,marginBottom:10}}>CHAPTERS</div>
+            <div style={{display:"flex",flexDirection:"column",gap:4}}>
+              {STORY.chapters.map(ch => { const sel = ch.id===currentCh; return (
+                <button key={ch.id} onClick={()=>setCurrentCh(ch.id)} style={{display:"flex",alignItems:"baseline",gap:8,padding:"8px 10px",borderRadius:6,textAlign:"left",cursor:"pointer",background:sel?"rgba(191,90,242,0.08)":"transparent",border:sel?`1px solid ${CHAT_ACCENT}33`:"1px solid transparent",fontFamily:FH}}>
+                  <span style={{fontSize:16,color:"#ccc",fontFamily:FH,minWidth:22}}>{ch.num}.</span>
+                  <div><div style={{fontSize:16,color:sel?"#fff":"#ccc",fontWeight:sel?600:400}}>{ch.title}</div>{ch.status==="open" && <div style={{fontSize:16,color:BRAND.yellow,marginTop:2,fontFamily:FH,letterSpacing:1}}>OPEN FOR WRITING</div>}</div>
+                </button>); })}
+            </div>
+          </div>
+          <div style={{border:`1px dashed ${BRAND.sky}44`,borderRadius:8,padding:14,background:"rgba(63,169,245,0.02)"}}>
+            <div style={{fontSize:16,color:BRAND.sage,letterSpacing:3,fontFamily:FH,fontWeight:600,marginBottom:10}}>CHARACTERS</div>
+            {CHARACTERS.map(ch => { const dn = ch.driver?DEMO_PLAYERS.find(p=>p.id===ch.driver)?.name:null; const av = !ch.driver; const isMe = drivingChar===ch.id; return (
+              <div key={ch.id} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 0",borderBottom:"1px solid rgba(255,255,255,0.05)"}}>
+                <div style={{width:8,height:8,borderRadius:"50%",background:ch.color,flexShrink:0}}/>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:16,fontWeight:600,color:isMe?CHAT_ACCENT:ch.color,fontFamily:FH}}>{ch.name}</div>
+                  <div style={{fontSize:16,color:"#fff",fontFamily:FB,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{ch.role}</div>
+                  {dn && <div style={{fontSize:16,color:"#ccc",fontFamily:FB}}>Driven by {dn}</div>}
+                </div>
+                {av && !drivingChar && <button onClick={()=>takeWheel(ch.id)} style={{padding:"4px 10px",borderRadius:20,fontSize:16,fontFamily:FH,letterSpacing:1,cursor:"pointer",background:"transparent",border:`1px solid ${BRAND.yellow}66`,color:BRAND.yellow,fontWeight:600,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:32}}>DRIVE</button>}
+              </div>); })}
+          </div>
+          <div style={{border:`1px dashed ${BRAND.sky}44`,borderRadius:8,padding:14,background:"rgba(63,169,245,0.02)"}}>
+            <div style={{fontSize:16,color:BRAND.sky,letterSpacing:3,fontFamily:FH,fontWeight:600,marginBottom:10}}>ENGAGEMENT</div>
+            {[{label:"Comment",cost:"Free",color:BRAND.sage},{label:"Drive Character",cost:`${COSTS.DRIVE} tokens`,color:BRAND.yellow},{label:"Talk to Author",cost:`${COSTS.TALK_AUTHOR} tokens`,color:"#FF6B2B"},{label:"AI Co-Author",cost:`${COSTS.AI_COAUTHOR} tokens`,color:BRAND.sky}].map(e => (
+              <div key={e.label} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:16}}>
+                <span style={{color:"#fff",fontFamily:FB}}>{e.label}</span>
+                <span style={{color:e.color,fontFamily:FH,fontSize:16,fontWeight:600}}>{e.cost}</span>
+              </div>))}
+          </div>
+        </div>
+      </div>
+
+      <BuiltOnBadge/>
+      {showTour && <TourOverlay onClose={()=>setShowTour(false)}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<F1R3SideChat/>);
+</script>
+</body>
+</html>
