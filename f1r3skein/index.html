@@ -29,7 +29,7 @@ const BRAND = {
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap');`;
 const FH = "'Josefin Sans', sans-serif";
 const FB = "'Source Sans 3', sans-serif";
-const SKEIN_ACCENT = "#A78BFA"; // lavender — generative/evolving feel
+const SKEIN_ACCENT = "#3FA9F5"; // brand sky blue
 
 const SCALE_NOTES = ["C3","D3","E3","G3","A3","C4","D4","E4","G4","A4","C5","D5","E5","G5","A5","C6","D6","E6","G6","A6","C7","D7"];
 
@@ -129,7 +129,7 @@ function F1R3Skein() {
         <div style={{display:"flex",flexDirection:"column",gap:10,alignItems:"center"}}>
           <div style={{fontSize:13,color:BRAND.yellow,letterSpacing:4,fontWeight:700,fontFamily:FH}}>CHOOSE YOUR F1R3SIGN</div>
           <input value={myName} onChange={e=>setMyName(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleJoin()} placeholder="someone musical" style={{background:"#000",border:`1px dashed ${BRAND.sky}66`,borderRadius:6,color:"#fff",padding:"10px 16px",fontSize:16,fontWeight:300,width:"100%",maxWidth:460,fontFamily:FH,textAlign:"center",outline:"none",marginTop:20}}/>
-          <button onClick={handleJoin} style={{background:`linear-gradient(135deg, ${SKEIN_ACCENT}, #5c0269)`,color:"#fff",border:"none",borderRadius:20,padding:"12px 32px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,boxShadow:`0 0 20px ${SKEIN_ACCENT}44`,marginTop:20,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>JOIN</button>
+          <button onClick={handleJoin} style={{background:`linear-gradient(135deg, #5c0269, #7b0429)`,color:"#fff",border:"none",borderRadius:20,padding:"12px 32px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,boxShadow:`0 0 20px rgba(123,4,41,0.4)`,marginTop:20,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>JOIN</button>
           <div style={{fontSize:10,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH,lineHeight:2.2,marginTop:20}}>YOUR F1R3SIGN TRAVELS<br/>WITH YOU ACROSS F1R3FLY</div>
           <div style={{marginTop:12}}><HowBtn onClick={()=>setShowTour(true)}/></div>
         </div>
