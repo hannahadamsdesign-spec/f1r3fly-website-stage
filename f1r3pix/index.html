@@ -181,7 +181,7 @@ function AIIcon({ size = 14, color = BRAND.sky }) {
 }
 
 // ── "Built on F1R3FLY.IO" Badge with logo ────────────────────────
-function PixWordmark({height=80}) {
+function PixWordmark({height=56}) {
   const c=[[0,0,"w"],[35,0,"w"],[70,0,"w"],[105,0,"w"],[140,0,"w"],[210,0,"w"],[245,0,"w"],[280,0,"w"],[385,0,"w"],[420,0,"w"],[455,0,"w"],[490,0,"w"],[525,0,"w"],[560,0,"w"],[630,0,"w"],[665,0,"w"],[700,0,"w"],[735,0,"w"],[770,0,"w"],[878,0,"y"],[913,0,"y"],[948,0,"y"],[983,0,"y"],[1018,0,"y"],[1123,0,"y"],[1158,0,"y"],[1263,0,"y"],[1298,0,"y"],[1438,0,"y"],[1473,0,"y"],[0,35,"w"],[35,35,"w"],[245,35,"w"],[280,35,"w"],[385,35,"w"],[420,35,"w"],[525,35,"w"],[560,35,"w"],[735,35,"w"],[770,35,"w"],[878,35,"y"],[913,35,"y"],[1018,35,"y"],[1123,35,"y"],[1158,35,"y"],[1263,35,"y"],[1298,35,"y"],[1438,35,"y"],[1473,35,"y"],[0,70,"w"],[35,70,"w"],[245,70,"w"],[280,70,"w"],[385,70,"w"],[420,70,"w"],[525,70,"w"],[560,70,"w"],[735,70,"w"],[770,70,"w"],[878,70,"y"],[913,70,"y"],[1018,70,"y"],[1123,70,"y"],[1158,70,"y"],[1298,70,"y"],[1333,70,"y"],[1403,70,"y"],[1438,70,"y"],[0,105,"w"],[35,105,"w"],[245,105,"w"],[280,105,"w"],[385,105,"w"],[420,105,"w"],[525,105,"w"],[560,105,"w"],[735,105,"w"],[878,105,"y"],[913,105,"y"],[1018,105,"y"],[1123,105,"y"],[1158,105,"y"],[1333,105,"y"],[1368,105,"y"],[1403,105,"y"],[0,140,"w"],[35,140,"w"],[70,140,"w"],[105,140,"w"],[245,140,"w"],[280,140,"w"],[385,140,"w"],[420,140,"w"],[455,140,"w"],[490,140,"w"],[525,140,"w"],[665,140,"w"],[700,140,"w"],[878,140,"y"],[913,140,"y"],[948,140,"y"],[983,140,"y"],[1018,140,"y"],[1123,140,"y"],[1158,140,"y"],[1368,140,"y"],[0,175,"w"],[35,175,"w"],[245,175,"w"],[280,175,"w"],[385,175,"w"],[420,175,"w"],[455,175,"w"],[490,175,"w"],[735,175,"w"],[878,175,"y"],[913,175,"y"],[1123,175,"y"],[1158,175,"y"],[1333,175,"y"],[1368,175,"y"],[1403,175,"y"],[0,210,"w"],[35,210,"w"],[245,210,"w"],[280,210,"w"],[385,210,"w"],[420,210,"w"],[525,210,"w"],[735,210,"w"],[770,210,"w"],[878,210,"y"],[913,210,"y"],[1123,210,"y"],[1158,210,"y"],[1298,210,"y"],[1333,210,"y"],[1403,210,"y"],[1438,210,"y"],[0,245,"w"],[35,245,"w"],[245,245,"w"],[280,245,"w"],[385,245,"w"],[420,245,"w"],[525,245,"w"],[560,245,"w"],[735,245,"w"],[770,245,"w"],[878,245,"y"],[913,245,"y"],[1123,245,"y"],[1158,245,"y"],[1263,245,"y"],[1298,245,"y"],[1438,245,"y"],[1473,245,"y"],[0,280,"w"],[35,280,"w"],[245,280,"w"],[280,280,"w"],[385,280,"w"],[420,280,"w"],[525,280,"w"],[560,280,"w"],[630,280,"w"],[665,280,"w"],[700,280,"w"],[735,280,"w"],[770,280,"w"],[878,280,"y"],[913,280,"y"],[1123,280,"y"],[1158,280,"y"],[1263,280,"y"],[1298,280,"y"],[1438,280,"y"],[1473,280,"y"]];
   return(<svg viewBox="0 0 1505 312" height={height} xmlns="http://www.w3.org/2000/svg" style={{display:"block"}}>{c.map(([x,y,t],i)=><rect key={i} x={x} y={y} width="32" height="32" rx="2" fill={t==="w"?"#fff":"#F3D630"}/>)}</svg>);
 }
@@ -391,7 +391,7 @@ function JoinScreen({ onJoin, players }) {
         <div style={{ height: 40 }} />
         <div className="join-solid-box" style={{ border: `1px dashed ${BRAND.sky}66`, borderRadius: 14, padding: "40px 48px", display: "inline-block", position: "relative", overflow: "hidden" }}>
           <h1 className="join-title" style={{ margin: "0 0 12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <PixWordmark height={80} />
+            <PixWordmark height={56} />
           </h1>
           <div style={{ fontSize: 10, color: "#fff", letterSpacing: 4, fontWeight: 400, fontFamily: FH }}>MANY MINDS. ONE CANVAS.</div>
         </div>
@@ -540,7 +540,7 @@ function F1R3Pix() {
       {/* Header */}
       <div className="game-header" style={{ padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "#000", minHeight: 70 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-          <span className="game-header-title"><PixWordmark height={32} /></span>
+          <span className="game-header-title"><PixWordmark height={22} /></span>
           <span className="game-header-stats" style={{ fontSize: 16, color: "#fff", letterSpacing: 2, fontFamily: FB }}>{allPlayers.length} players | {pixelCount} pixels | shard {shardOk ? "live" : "offline"}</span>
         </div>
         <div className="zoom-controls" style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, justifyContent: "space-between" }}>
