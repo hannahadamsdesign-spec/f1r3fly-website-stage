@@ -387,13 +387,13 @@ function JoinScreen({ onJoin, players }) {
       `}</style>
       <div style={{ animation: "fadeIn .6s ease-out", textAlign: "center", marginTop: -75, position: "relative", zIndex: 1 }}>
         <F1R3GamesLogo width={196} />
-        <div style={{ fontSize: 10, color: "#fff", letterSpacing: 6, fontFamily: FH, fontWeight: 400, marginTop: 24 }}>PRESENTS</div>
+        <div style={{ fontSize: 12, color: "#fff", letterSpacing: 6, fontFamily: FH, fontWeight: 400, marginTop: 24 }}>PRESENTS</div>
         <div style={{ height: 40 }} />
         <div className="join-solid-box" style={{ border: `1px dashed ${BRAND.sky}66`, borderRadius: 14, padding: "40px 48px", display: "inline-block", position: "relative", overflow: "hidden" }}>
           <h1 className="join-title" style={{ margin: "0 0 12px", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <PixWordmark height={56} />
           </h1>
-          <div style={{ fontSize: 10, color: "#fff", letterSpacing: 4, fontWeight: 400, fontFamily: FH }}>MANY MINDS. ONE CANVAS.</div>
+          <div style={{ fontSize: 12, color: "#fff", letterSpacing: 4, fontWeight: 400, fontFamily: FH }}>MANY MINDS. ONE CANVAS.</div>
         </div>
         <div style={{ height: 50 }} />
         <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
@@ -401,7 +401,7 @@ function JoinScreen({ onJoin, players }) {
           <input value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === "Enter" && go()} placeholder="someone wonderful"
             style={{ background: "#000", border: `1px dashed ${BRAND.sky}66`, borderRadius: 6, color: "#fff", padding: "10px 16px", fontSize: 16, fontWeight: 300, width: "100%", maxWidth: 460, fontFamily: FH, textAlign: "center", outline: "none", marginTop: 20 }} />
           <button onClick={go} style={{ background: "linear-gradient(135deg, #5c0269, #7b0429)", color: "#fff", border: "none", borderRadius: 20, padding: "10px 32px", fontSize: 16, fontFamily: FH, fontWeight: 600, cursor: "pointer", letterSpacing: 3, boxShadow: "0 0 20px rgba(123,4,41,0.4)", marginTop: 20, display: "inline-flex", alignItems: "center", justifyContent: "center", lineHeight: 1, minHeight: 38 }}>JOIN</button>
-          <div style={{ fontSize: 10, color: "#fff", letterSpacing: 4, fontWeight: 400, fontFamily: FH, lineHeight: 2.2, marginTop: 20 }}>YOUR F1R3SIGN TRAVELS<br />WITH YOU ACROSS F1R3FLY</div>
+          <div style={{ fontSize: 12, color: "#fff", letterSpacing: 4, fontWeight: 400, fontFamily: FH, lineHeight: 2.2, marginTop: 20 }}>YOUR F1R3SIGN TRAVELS<br />WITH YOU ACROSS F1R3FLY</div>
         </div>
         <button onClick={() => setShowTour(true)} style={{ marginTop: 30, background: "#000", border: `1px solid ${BRAND.border}`, color: "#fff", borderRadius: 20, padding: "10px 24px", fontSize: 16, fontFamily: FH, letterSpacing: 2, cursor: "pointer", fontWeight: 400, display: "inline-flex", alignItems: "center", justifyContent: "center", lineHeight: 1, minHeight: 38 }}>HOW THIS WORKS</button>
         {players.length > 0 && <div style={{ marginTop: 16, color: BRAND.textDim, fontSize: 16 }}>{players.length} playing</div>}
@@ -544,7 +544,7 @@ function F1R3Pix() {
           <span className="game-header-stats" style={{ fontSize: 16, color: "#fff", letterSpacing: 2, fontFamily: FB }}>{allPlayers.length} players | {pixelCount} pixels | shard {shardOk ? "live" : "offline"}</span>
         </div>
         <div className="zoom-controls" style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, justifyContent: "space-between" }}>
-          <button className="tour-btn" onClick={() => setShowTour(true)} style={{ background: "#000", border: `1px solid ${BRAND.border}`, color: "#fff", borderRadius: 20, padding: "6px 16px", fontSize: 13, cursor: "pointer", fontFamily: FH, letterSpacing: 2, fontWeight: 400, flexShrink: 0, marginLeft: 16 }}>HOW THIS WORKS</button>
+          <button className="tour-btn" onClick={() => setShowTour(true)} style={{ background: "#000", border: `1px solid ${BRAND.border}`, color: "#fff", borderRadius: 20, padding: "10px 24px", fontSize: 16, cursor: "pointer", fontFamily: FH, letterSpacing: 2, fontWeight: 400, flexShrink: 0, marginLeft: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", lineHeight: 1, minHeight: 38 }}>HOW THIS WORKS</button>
           <div style={{ display: "flex", alignItems: "center", gap: 6, flex: 1, justifyContent: "center" }}>
           <button className="zoom-btn" onClick={() => setZoom(z => Math.max(MIN_ZOOM, Math.round((z - 0.1) * 10) / 10))} style={{ background: "#000", border: `1px solid ${BRAND.border}`, color: "#fff", borderRadius: 4, width: 36, height: 36, fontSize: 22, cursor: "pointer", fontFamily: FH, display: "flex", alignItems: "center", justifyContent: "center" }}>-</button>
           <span style={{ fontSize: 16, color: BRAND.textMuted, fontFamily: FM, minWidth: 50, textAlign: "center" }}>{Math.round(zoom * 100)}%</span>
@@ -569,7 +569,7 @@ function F1R3Pix() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {/* Balance */}
             <div style={{ padding: 14, borderRadius: 6, border: `1px solid ${BRAND.yellow}33`, background: "rgba(243,214,48,0.04)" }}>
-              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: BRAND.yellow, fontFamily: FH, marginBottom: 6, fontWeight: 600 }}>F1R3CAP BALANCE</div>
+              <div style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 2, color: BRAND.yellow, fontFamily: FH, marginBottom: 6, fontWeight: 600 }}>F1R3CAP BALANCE</div>
               <div style={{ fontSize: 32, fontWeight: 700, fontFamily: FH, color: BRAND.yellow, letterSpacing: 2 }}>
                 {tokenBalance.toLocaleString()}
               </div>
@@ -578,7 +578,7 @@ function F1R3Pix() {
 
             {/* Send */}
             <div style={{ padding: 14, borderRadius: 6, border: `1px solid ${BRAND.border}`, background: "rgba(0,0,0,0.4)" }}>
-              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: BRAND.textMuted, fontFamily: FH, marginBottom: 10, fontWeight: 600 }}>SEND F1R3CAP</div>
+              <div style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 2, color: BRAND.textMuted, fontFamily: FH, marginBottom: 10, fontWeight: 600 }}>SEND F1R3CAP</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <select value={sendTarget} onChange={e => setSendTarget(e.target.value)}
                   style={{ background: "#111", border: `1px solid ${BRAND.border}`, borderRadius: 6, color: "#fff", padding: "8px 10px", fontSize: 14, fontFamily: FB, outline: "none", appearance: "none", cursor: "pointer" }}>
@@ -602,7 +602,7 @@ function F1R3Pix() {
 
             {/* Transaction Log */}
             <div style={{ padding: 12, borderRadius: 6, border: `1px solid ${BRAND.border}`, background: "rgba(0,0,0,0.4)", maxHeight: 200, overflowY: "auto" }}>
-              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: BRAND.textMuted, fontFamily: FH, marginBottom: 8, fontWeight: 600 }}>TRANSACTIONS</div>
+              <div style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 2, color: BRAND.textMuted, fontFamily: FH, marginBottom: 8, fontWeight: 600 }}>TRANSACTIONS</div>
               {[...tokenLog].reverse().slice(0, 15).map(tx => {
                 const isSent = tx.from === myId;
                 return (
@@ -708,7 +708,7 @@ function F1R3Pix() {
             </div>
             {signalConfirm && <div style={{ marginTop: 8, padding: "6px 8px", borderRadius: 4, background: "rgba(243,214,48,0.08)", border: `1px solid ${BRAND.yellow}33`, fontSize: 13, color: BRAND.yellow, fontFamily: FB }}>noted. we wrote that down.</div>}
             {signal && !signalConfirm && <div style={{ marginTop: 8, fontSize: 13, color: BRAND.textDim, fontFamily: FB, display: "flex", alignItems: "center", gap: 6 }}>{myName}'s signal: <div style={{ width: 12, height: 12, borderRadius: "50%", background: signal, border: "1px solid rgba(255,255,255,0.2)" }} /></div>}
-            <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.3)", fontFamily: FB, fontStyle: "italic" }}>powered by F1R3INK</div>
+            <div style={{ marginTop: 8, fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: FB, fontStyle: "italic" }}>powered by F1R3INK</div>
           </div>
         </div>
       </div>

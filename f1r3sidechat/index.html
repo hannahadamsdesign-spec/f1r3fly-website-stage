@@ -139,18 +139,18 @@ function F1R3SideChat() {
       <style>{FONTS}{`@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} input:focus{border-color:${BRAND.sky}66 !important;outline:none}`}</style>
       <div style={{animation:"fadeIn .6s ease-out",textAlign:"center",position:"relative",zIndex:1}}>
         <F1R3GamesLogo width={196}/>
-        <div style={{fontSize:10,color:"#fff",letterSpacing:6,fontFamily:FH,fontWeight:400,marginTop:24}}>PRESENTS</div>
+        <div style={{fontSize:12,color:"#fff",letterSpacing:6,fontFamily:FH,fontWeight:400,marginTop:24}}>PRESENTS</div>
         <div style={{height:40}}/>
         <div style={{border:`1px dashed ${BRAND.sky}66`,borderRadius:14,padding:"40px 48px",display:"inline-block",background:"#000"}}>
           <h1 style={{margin:"0 0 12px",fontSize:52,fontWeight:700,letterSpacing:6,color:"#fff",fontFamily:FH}}>F1R3<span style={{color:CHAT_ACCENT}}>SIDECHAT</span></h1>
-          <div style={{fontSize:10,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH}}>COLLABORATIVE FICTION, WRITTEN LIVE</div>
+          <div style={{fontSize:12,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH}}>COLLABORATIVE FICTION, WRITTEN LIVE</div>
         </div>
         <div style={{height:50}}/>
         <div style={{display:"flex",flexDirection:"column",gap:10,alignItems:"center"}}>
           <div style={{fontSize:13,color:BRAND.yellow,letterSpacing:4,fontWeight:700,fontFamily:FH}}>CHOOSE YOUR F1R3SIGN</div>
           <input value={myName} onChange={e=>setMyName(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleJoin()} placeholder="someone with a story" style={{background:"#000",border:`1px dashed ${BRAND.sky}66`,borderRadius:6,color:"#fff",padding:"10px 16px",fontSize:16,fontWeight:300,width:"100%",maxWidth:460,fontFamily:FH,textAlign:"center",outline:"none",marginTop:20}}/>
           <button onClick={handleJoin} style={{background:`linear-gradient(135deg, #5c0269, #7b0429)`,color:"#fff",border:"none",borderRadius:20,padding:"10px 32px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,boxShadow:"0 0 20px rgba(123,4,41,0.4)",marginTop:20,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:38}}>JOIN</button>
-          <div style={{fontSize:10,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH,lineHeight:2.2,marginTop:20}}>YOUR F1R3SIGN TRAVELS<br/>WITH YOU ACROSS F1R3FLY</div>
+          <div style={{fontSize:12,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH,lineHeight:2.2,marginTop:20}}>YOUR F1R3SIGN TRAVELS<br/>WITH YOU ACROSS F1R3FLY</div>
           <div style={{marginTop:12}}><HowBtn onClick={()=>setShowTour(true)}/></div>
         </div>
         <div style={{marginTop:16,color:"#fff",fontSize:16}}>{STORY.readers} readers</div>
