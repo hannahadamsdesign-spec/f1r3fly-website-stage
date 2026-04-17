@@ -111,7 +111,7 @@ function HumanIcon({size=14, color="#fff"}) {
 }
 
 function HowBtn({onClick}) {
-  return <button onClick={onClick} style={{background:"none", border:`1px solid ${BRAND.border}`, color:"#999", borderRadius:20, padding:"12px 24px", fontSize:16, cursor:"pointer", fontFamily:FH, letterSpacing:2, fontWeight:400, display:"inline-flex", alignItems:"center", justifyContent:"center", lineHeight:1, minHeight:44}}>HOW THIS WORKS</button>;
+  return <button onClick={onClick} style={{background:"none", border:`1px solid ${BRAND.border}`, color:"#999", borderRadius:20, padding:"10px 24px", fontSize:16, cursor:"pointer", fontFamily:FH, letterSpacing:2, fontWeight:400, display:"inline-flex", alignItems:"center", justifyContent:"center", lineHeight:1, minHeight:38}}>HOW THIS WORKS</button>;
 }
 
 function TourOverlay({onClose}) {
@@ -134,8 +134,8 @@ function TourOverlay({onClose}) {
         </div>
         <div style={{marginTop:24}}>
           {si < slides.length-1
-            ? <button onClick={()=>setSi(si+1)} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"12px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:2,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>NEXT</button>
-            : <button onClick={onClose} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"12px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:2,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>LET'S GO</button>}
+            ? <button onClick={()=>setSi(si+1)} style={{background:"#000",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"10px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:2,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:38}}>NEXT</button>
+            : <button onClick={onClose} style={{background:"#000",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"10px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:2,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:38}}>LET'S GO</button>}
         </div>
       </div>
     </div>
@@ -251,7 +251,7 @@ function F1R3Beat() {
         <div style={{display:"flex",flexDirection:"column",gap:10,alignItems:"center"}}>
           <div style={{fontSize:13,color:BRAND.yellow,letterSpacing:4,fontWeight:700,fontFamily:FH}}>CHOOSE YOUR F1R3SIGN</div>
           <input value={myName} onChange={e=>setMyName(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleJoin()} placeholder="someone rhythmic" style={{background:"#000",border:`1px dashed ${BRAND.sky}66`,borderRadius:6,color:"#fff",padding:"10px 16px",fontSize:16,fontWeight:300,width:"100%",maxWidth:460,fontFamily:FH,textAlign:"center",outline:"none",marginTop:20}}/>
-          <button onClick={handleJoin} style={{background:"linear-gradient(135deg, #5c0269, #7b0429)",color:"#fff",border:"none",borderRadius:20,padding:"12px 32px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,boxShadow:"0 0 20px rgba(123,4,41,0.4)",marginTop:20,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44}}>JOIN</button>
+          <button onClick={handleJoin} style={{background:"linear-gradient(135deg, #5c0269, #7b0429)",color:"#fff",border:"none",borderRadius:20,padding:"10px 32px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,boxShadow:"0 0 20px rgba(123,4,41,0.4)",marginTop:20,display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:38}}>JOIN</button>
           <div style={{fontSize:10,color:"#fff",letterSpacing:4,fontWeight:400,fontFamily:FH,lineHeight:2.2,marginTop:20}}>YOUR F1R3SIGN TRAVELS<br/>WITH YOU ACROSS F1R3FLY</div>
           <div style={{marginTop:12}}><HowBtn onClick={()=>setShowTour(true)}/></div>
         </div>
@@ -300,9 +300,9 @@ function F1R3Beat() {
       <div className="transport-bar" style={{padding:"16px 20px",display:"flex",alignItems:"center",gap:20,borderBottom:`1px solid ${BRAND.border}`,flexWrap:"nowrap"}}>
         <button onClick={togglePlay} style={{
           background: playing ? "linear-gradient(135deg, #8b0000, #b91c1c)" : "linear-gradient(135deg, #5c0269, #7b0429)",
-          color:"#fff",border:"none",borderRadius:20,padding:"12px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,
+          color:"#fff",border:"none",borderRadius:20,padding:"10px 28px",fontSize:16,fontFamily:FH,fontWeight:600,cursor:"pointer",letterSpacing:3,
           boxShadow: playing ? "0 0 20px rgba(185,28,28,0.4)" : "0 0 20px rgba(123,4,41,0.4)",
-          display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:44
+          display:"inline-flex",alignItems:"center",justifyContent:"center",lineHeight:1,minHeight:38
         }}>{playing ? "STOP" : "PLAY"}</button>
 
         <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -313,10 +313,10 @@ function F1R3Beat() {
           <span style={{fontSize:16,color:"#fff",fontFamily:FM,width:36,fontWeight:600}}>{bpm}</span>
         </div>
 
-        <button onClick={clearGrid} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"10px 20px",fontSize:14,cursor:"pointer",fontFamily:FH,letterSpacing:2,fontWeight:400,minHeight:40}}>CLEAR</button>
+        <button onClick={clearGrid} style={{background:"none",border:`1px solid ${BRAND.border}`,color:"#fff",borderRadius:20,padding:"10px 20px",fontSize:14,cursor:"pointer",fontFamily:FH,letterSpacing:2,fontWeight:400,minHeight:38}}>CLEAR</button>
 
         <div style={{position:"relative"}}>
-          <button onClick={showRecordTip} style={{background:"none",border:`1px solid ${BEAT_ACCENT}66`,color:BEAT_ACCENT,borderRadius:20,padding:"10px 20px",fontSize:14,cursor:"pointer",fontFamily:FH,letterSpacing:2,fontWeight:400,minHeight:40,display:"inline-flex",alignItems:"center",gap:8}}>
+          <button onClick={showRecordTip} style={{background:"none",border:`1px solid ${BEAT_ACCENT}66`,color:BEAT_ACCENT,borderRadius:20,padding:"10px 20px",fontSize:14,cursor:"pointer",fontFamily:FH,letterSpacing:2,fontWeight:400,minHeight:38,display:"inline-flex",alignItems:"center",gap:8}}>
             <span style={{width:8,height:8,borderRadius:"50%",background:BEAT_ACCENT,display:"inline-block"}}/>
             RECORD
           </button>
