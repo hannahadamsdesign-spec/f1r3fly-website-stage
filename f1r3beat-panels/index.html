@@ -11,19 +11,6 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; min-height: 100vh; background: #000; color: #fff; overflow-x: hidden; }
-  .join-beat-bg { position: relative; }
-  .join-beat-bg::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("beat-grid-pattern.svg");
-    background-size: 512px auto;
-    background-repeat: repeat;
-    background-position: center;
-    opacity: 0.18;
-    pointer-events: none;
-    z-index: 0;
-  }
   .join-solid-box { background: #000 !important; position: relative; z-index: 1; }
   @media (max-width: 1024px) {
     .game-layout { flex-direction: column !important; }
